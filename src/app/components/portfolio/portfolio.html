@@ -1,0 +1,191 @@
+<!--==================== PORTFOLIO ====================-->
+<section class="portfolio section" id="portfolio">
+  <div class="portfolio__container">
+    <!-- Header -->
+    <div class="portfolio__header">
+      <span class="portfolio__eyebrow">Trabajos Recientes</span>
+      <h2 class="portfolio__title">
+        Mi
+        <span class="portfolio__title-accent">Portafolio</span>
+      </h2>
+      <div class="portfolio__underline"></div>
+      <p class="portfolio__description">
+        Proyectos que reflejan mi <strong>pasión por la tecnología</strong><br>
+        y mi compromiso con la calidad.
+      </p>
+    </div>
+
+    <!-- Barra de búsqueda y filtros -->
+    <div class="portfolio__header-filters">
+      <!-- Buscador -->
+      <div class="portfolio__search">
+        <i class="uil uil-search"></i>
+        <input 
+          type="text" 
+          placeholder="Buscar proyecto..." 
+          (input)="onSearch($event)"
+          [value]="searchTerm()"
+          class="portfolio__search-input">
+        @if (searchTerm()) {
+          <i class="uil uil-times portfolio__search-clear" (click)="clearSearch()"></i>
+        }
+      </div>
+
+      <!-- Filtros rápidos -->
+      <div class="portfolio__filters">
+        @for (category of categories; track category.id) {
+          <button 
+            class="portfolio__filter-btn" 
+            [class.active]="activeFilter() === category.id"
+            (click)="setFilter(category.id)">
+            <i [class]="category.icon"></i>
+            <span>{{ category.name }}</span>
+            <span class="portfolio__filter-count">{{ getCategoryCount(category.id) }}</span>
+          </button>
+        }
+      </div>
+    </div>
+
+    <!-- Grid de proyectos -->
+    <div class="portfolio__grid">
+      <!-- Cabecera con resultados -->
+      <div class="portfolio__results">
+        <p>
+          <i class="uil uil-chart"></i>
+          Mostrando <strong>{{ paginatedProjects().length }}</strong> de 
+          <strong>{{ filteredBySearch().length }}</strong> proyectos
+        </p>
+        @if (activeFilter() !== 'all') {
+          <span class="portfolio__active-filter">
+            <i class="uil uil-filter"></i>
+            {{ categories.find(c => c.id === activeFilter())?.name }}
+            <i class="uil uil-times" (click)="setFilter('all')"></i>
+          </span>
+        }
+      </div>
+
+      <!-- Grid -->
+      <div class="portfolio__grid-wrapper">
+        @for (project of paginatedProjects(); track project.id) {
+          <div class="portfolio__card" (click)="openModal(project)">
+            <div class="portfolio__card-image">
+              <img [src]="project.image" [alt]="project.title" loading="lazy">
+              <div class="portfolio__card-overlay">
+                <i class="uil uil-eye"></i>
+                <span>Ver detalles</span>
+              </div>
+            </div>
+            <div class="portfolio__card-info">
+              <div class="portfolio__card-category" [style.backgroundColor]="categories.find(c => c.id === project.category)?.color">
+                {{ project.categoryName }}
+              </div>
+              <h3 class="portfolio__card-title">{{ project.title }}</h3>
+              <div class="portfolio__card-tech">
+                @for (tech of project.technologies.slice(0, 3); track tech) {
+                  <span class="portfolio__card-tech-tag">{{ tech }}</span>
+                }
+                @if (project.technologies.length > 3) {
+                  <span class="portfolio__card-tech-tag">+{{ project.technologies.length - 3 }}</span>
+                }
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+
+      <!-- Paginación -->
+      @if (totalPages() > 1) {
+        <div class="portfolio__pagination">
+          <button 
+            class="pagination__btn" 
+            [disabled]="currentPage() === 1"
+            (click)="goToPage(currentPage() - 1)">
+            <i class="uil uil-angle-left"></i>
+          </button>
+          
+          <div class="pagination__pages">
+            @for (page of [].constructor(totalPages()); let i = $index; track i) {
+              <button 
+                class="pagination__page" 
+                [class.active]="currentPage() === i + 1"
+                (click)="goToPage(i + 1)">
+                {{ i + 1 }}
+              </button>
+            }
+          </div>
+          
+          <button 
+            class="pagination__btn" 
+            [disabled]="currentPage() === totalPages()"
+            (click)="goToPage(currentPage() + 1)">
+            <i class="uil uil-angle-right"></i>
+          </button>
+        </div>
+      }
+
+      <!-- Estado vacío -->
+      @if (filteredBySearch().length === 0) {
+        <div class="portfolio__empty">
+          <i class="uil uil-frown"></i>
+          <h3>No se encontraron proyectos</h3>
+          <p>Intenta con otros filtros o términos de búsqueda</p>
+          <button class="button button--flex" (click)="setFilter('all'); clearSearch()">
+            <i class="uil uil-redo"></i>
+            Limpiar filtros
+          </button>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- Modal para ver proyecto en detalle -->
+@if (showModal() && selectedProject()) {
+  <div class="portfolio__modal" (click)="closeModal()">
+    <div class="portfolio__modal-content" (click)="$event.stopPropagation()">
+      <div class="portfolio__modal-header">
+        <h3>{{ selectedProject()?.title }}</h3>
+        <i class="uil uil-times portfolio__modal-close" (click)="closeModal()"></i>
+      </div>
+      <div class="portfolio__modal-body">
+        <div class="portfolio__modal-image">
+          <img [src]="selectedProject()?.image" [alt]="selectedProject()?.title">
+        </div>
+        <div class="portfolio__modal-info">
+          <div class="portfolio__modal-category" [style.backgroundColor]="categories.find(c => c.id === selectedProject()?.category)?.color">
+            {{ selectedProject()?.categoryName }}
+          </div>
+          <p class="portfolio__modal-description">{{ selectedProject()?.description }}</p>
+          <div class="portfolio__modal-tech">
+            <h4>Tecnologías utilizadas</h4>
+            <div class="portfolio__modal-tech-list">
+              @for (tech of selectedProject()?.technologies; track tech) {
+                <span class="portfolio__modal-tech-tag">{{ tech }}</span>
+              }
+            </div>
+          </div>
+          <div class="portfolio__modal-actions">
+            @if (selectedProject()?.link) {
+              <a [href]="selectedProject()?.link" target="_blank" class="button button--flex button--demo">
+                <i class="uil uil-external-link-alt"></i>
+                Ver demo
+              </a>
+            }
+            @if (selectedProject()?.github) {
+              <a [href]="selectedProject()?.github" target="_blank" class="button button--flex button--github">
+                <i class="uil uil-github-alt"></i>
+                Código fuente
+              </a>
+            }
+            @if (selectedProject()?.info) {
+              <a [routerLink]="selectedProject()?.info" class="button button--flex button--info">
+                <i class="uil uil-info-circle"></i>
+                Más información
+              </a>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+}

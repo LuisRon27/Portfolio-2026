@@ -1,0 +1,1052 @@
+================================================================================
+                     ANÁLISIS TÉCNICO PROFESIONAL COMPLETO
+                     "Manuales de Sistemas" (Systems Manuals)
+================================================================================
+
+ÍNDICE
+  1. Título Profesional
+  2. Subtítulo
+  3. Descripción Corta
+  4. Descripción Técnica
+  5. Storytelling / Contexto de Negocio
+  6. Funcionalidades Principales
+  7. Stack Tecnológico Detallado
+  8. Arquitectura del Sistema
+  9. Base de Datos
+  10. Autenticación y Seguridad
+  11. Frontend
+  12. Backend
+  13. APIs e Integraciones
+  14. Panel Admin / CRUD
+  15. Roles y Permisos
+  16. Dashboard / Reportes
+  17. Estructura del Proyecto
+  18. Patrones y Buenas Prácticas
+  19. Performance
+  20. Responsive Design
+  21. Testing
+  22. Docker / CI/CD / Cloud
+  23. Nivel Técnico y Seniority
+  24. Desafíos y Soluciones Técnicas
+  25. Diferenciadores
+  26. Impacto Profesional
+  27. Habilidades Demostradas
+  28. Keywords ATS 2026
+  29. Bullets para CV
+  30. Texto para LinkedIn
+  31. Resumen Tipo Case Study
+================================================================================
+
+
+1. TÍTULO PROFESIONAL
+--------------------------------------------------------------------------------
+Sistema Web de Gestión de Documentación Técnica Interna (DMS)
+"Manuales de Sistemas" — Portal Corporativo de Manuales TI
+
+
+2. SUBTÍTULO
+--------------------------------------------------------------------------------
+Aplicación Web Full-Stack PHP + SQL Server para la administración centralizada
+de manuales técnicos, procedimientos y documentación de infraestructura/sistemas
+en un grupo de salud con múltiples sedes.
+
+
+3. DESCRIPCIÓN CORTA
+--------------------------------------------------------------------------------
+Sistema web interno tipo DMS (Document Management System) que permite a un
+departamento de Sistemas centralizar, organizar, buscar y mantener toda su
+documentación técnica (manuales, instructivos, procedimientos) en un repositorio
+digital con acceso web, categorización por áreas, filtros dinámicos y soft-delete.
+Desarrollado en PHP nativo con SQL Server y Bootstrap 5, opera como módulo
+dentro de un ecosistema corporativo más grande (portal intranet) del grupo de
+salud Henry Moore / Oncomed Reno en Argentina.
+
+
+4. DESCRIPCIÓN TÉCNICA
+--------------------------------------------------------------------------------
+Aplicación web full-stack construida con PHP procedural sobre Windows + XAMPP,
+conectada a Microsoft SQL Server 2008+ mediante la extensión sqlsrv. Implementa
+autenticación por sesión contra tabla de usuarios corporativa, CRUD completo de
+documentos con carga de archivos (PDF, DOC, DOCX, XLS, XLSX), categorización
+jerárquica (Áreas → Categorías → Documentos), paginación server-side + filtrado
+client-side, búsqueda por texto libre y soft-delete lógico. La UI utiliza
+Bootstrap 5.3 con modal CRUD, DataTables, Bootstrap Icons y estilos CSS
+corporativos (violeta #685783 + amarillo #d9ad27). El manejo de archivos incluye
+sanitización de nombres, validación de extensiones, peso en KB y organización
+física por área en directorios separados. A nivel de seguridad usa consultas
+parametrizadas (prepared statements) anti-SQLi y escape XSS con htmlspecialchars.
+
+
+5. STORYTELLING / CONTEXTO DE NEGOCIO
+--------------------------------------------------------------------------------
+El departamento de Sistemas del grupo Henry Moore / Oncomed Reno (salud,
+múltiples sedes en CABA) acumulaba años de documentación técnica dispersa en
+carpetas de red compartidas, sin control de versiones, sin búsqueda y sin
+categorización. Cada técnico o desarrollador guardaba manuales, instructivos y
+procedimientos en su propia máquina o en directorios sin estructura. Esto
+generaba pérdida de tiempo, duplicación de esfuerzos y riesgos operativos.
+
+Se desarrolló "Manuales de Sistemas" como solución interna para centralizar
+TODO el conocimiento del área: desde procedimientos de infraestructura (redes,
+firewalls Fortigate, CCTV, telefonía VoIP) hasta manuales de desarrollo (SQL
+Server, GtmApp, facturación, pads, bots, recetas digitales, etc.).
+
+El sistema se integró como módulo del portal intranet existente, reutilizando
+la autenticación corporativa. Hoy es la fuente única de verdad documental del
+departamento, con más de 60 documentos técnicos cargados y accesibles desde
+cualquier estación de trabajo interna sin necesidad de permisos de red.
+
+
+6. FUNCIONALIDADES PRINCIPALES
+--------------------------------------------------------------------------------
+  a) Autenticación de usuarios contra base corporativa (login/logout con
+     sesiones PHP).
+
+  b) Landing page con tarjetas de Áreas activas del departamento (ej.
+     "desarrollo", "infraestructura").
+
+  c) Visualización de documentos por Área con tabla responsiva que muestra:
+     título, categoría, descripción, icono de tipo de archivo, ruta de red
+     (copiable al portapapeles), fecha de creación.
+
+  d) Búsqueda en tiempo real por título/descripción (filtro client-side en JS
+     sobre JSON embebido).
+
+  e) Filtro dinámico por categoría (combinable con búsqueda).
+
+  f) Paginación server-side (server) + client-side (JS) combinada: el listado
+     server-side inicial de 10 registros se complementa con una copia JSON de
+     todos los documentos para filtrado interactivo sin recarga.
+
+  g) CRUD completo de documentos (manuales):
+     - Crear: formulario modal con categoría, título, descripción + archivo
+     - Editar: modificar metadatos y opcionalmente reemplazar archivo
+     - Eliminar lógico (soft-delete): flag activo = 0, sin borrado físico
+
+  h) CRUD completo de Categorías:
+     - Asociadas a un Área
+     - Modal unificado para crear/editar
+     - Soft-delete (inactivación)
+
+  i) Subida de archivos con:
+     - Validación de extensiones (solo .pdf .doc .docx .xls .xlsx)
+     - Sanitización de nombre (caracteres seguros + timestamp único)
+     - Organización en subdirectorios por slug del área
+     - Cálculo de peso en KB
+     - Reemplazo controlado (elimina archivo anterior en edición)
+
+  j) Soft-delete general: ningún DELETE FROM, solo UPDATE activo=0. El archivo
+     físico NO se elimina al inactivar.
+
+  k) Copia de ruta UNC de red al portapapeles ( \\server\share\ruta\archivo )
+     para acceso directo desde Windows Explorer.
+
+  l) Enlace a "documentación vieja" (legado HTML anterior al sistema).
+
+  m) Navegación integrada al portal corporativo (volver, inicio, portal).
+
+
+7. STACK TECNOLÓGICO DETALLADO
+--------------------------------------------------------------------------------
+  CAPA          TECNOLOGÍA                     VERSIÓN / DETALLE
+  ────────────  ─────────────────────────────  ──────────────────────────────
+  Frontend      HTML5 + CSS3                   Semántico, responsive
+                Bootstrap                      5.3.0 (CDN)
+                Bootstrap Icons                1.11.2 (CDN)
+                JavaScript (Vanilla)           ES5/ES6, sin framework
+                jQuery                         3.3.1 (librería auxiliar)
+                DataTables                     jQuery plugin (tablas)
+
+  Backend       PHP (procedural)               8.x (inferido por sintaxis)
+                SQLSRV Extension               Microsoft Drivers for PHP
+                Sesiones nativas PHP           session_start()
+
+  Base de      Microsoft SQL Server            2008+ (inferido)
+  Datos         (Motor relacional)
+                T-SQL con consultas
+                parametrizadas (sqlsrv_query
+                con array de parámetros)
+
+  Servidor      XAMPP (Apache + PHP)           Windows
+                Windows Server                 (inferido por rutas UNC)
+
+  Almacena-     Sistema de archivos Windows    Archivos en uploads/{area}/
+  miento        Rutas UNC compartidas          \\192.168.0.225\c$\xampp\...
+
+  Seguridad     Prepared statements             Anti-SQLi
+                htmlspecialchars()              Anti-XSS
+                basename() + preg_replace()     Sanitización archivos
+                Whitelist de extensiones        Solo formatos documentales
+                Sesiones HTTP                   Auth state management
+
+  UI/UX         Cards con sombra                Áreas en homepage
+                Modales Bootstrap               CRUD sin recarga de página
+                Tablas striped/hover            DataTables styling
+                Badges por categoría            Estilo warning
+                Iconos por tipo archivo         PDF rojo, Word azul, Excel
+                Paginación Bootstrap            Con números y anterior/sig
+                Búsqueda inline                 Client-side filtering
+
+  Tipografía    Amarillo corporativo           #d9ad27
+                Violeta corporativo             #685783
+                Fondo con imagen               foto.jpg (cover fixed)
+
+  Favicon       favicon.png                     Personalizado
+
+
+8. ARQUITECTURA DEL SISTEMA
+--------------------------------------------------------------------------------
+  Arquetipo: Aplicación Web Monolítica (PHP procedural)
+  Patrón:    Page Controller (cada .php es una página-controladora)
+  Modelo:    Sin framework MVC — PHP plano con separación de includes
+
+  FLUJO DE SOLICITUD:
+
+    Navegador
+       │
+       ▼
+    Apache (XAMPP)
+       │
+       ▼
+    index.php / area.php / categoria.php
+       │
+       ├── require("conexionSQL_Hmoore.php")   ← Conexión P/M a SQL Server
+       ├── include("./includes/header.php")     ← Header corporativo
+       ├── Lógica de negocio (consultas SQL)    ← Queries parametrizadas
+       ├── HTML + PHP embebido (vistas)         ← Renderizado
+       ├── include("./includes/footer.php")     ← Footer corporativo
+       └── JS al final (Bootstrap + custom)     ← Interactividad
+
+    CRUD:
+      insert.manual.php / update.manual.php / delete.manual.php
+      insert.categoria.php / update.categoria.php / delete.categoria.php
+        → reciben POST/GET
+        → validan
+        → ejecutan SQL
+        → redirigen (header Location)
+
+  SEPARACIÓN LÓGICA:
+    - /includes/        → Header y footer reutilizables
+    - /crud/            → Operaciones de escritura (CUD)
+    - /uploads/{area}/  → Archivos físicos organizados por área
+    - index.php         → Vista principal (listado de áreas)
+    - area.php          → Documentos por área (con todo el CRUD embebido)
+    - categoria.php     → ABM de categorías
+
+  DEPENDENCIA EXTERNA:
+    - Conexión a BD compartida: ../../conexiones/conexionSQL_Hmoore.php
+      (ruta relativa que sube dos niveles hasta la carpeta Sistemas/)
+
+  RUTAS DE ARCHIVOS:
+    - Los documentos se almacenan en uploads/{area_slug}/
+    - El slug se obtiene limpiando el nombre del área (solo a-zA-Z0-9)
+    - Cada archivo se renombra con timestamp_nombreoriginal para unicidad
+
+
+9. BASE DE DATOS
+--------------------------------------------------------------------------------
+  Motor:  Microsoft SQL Server
+  Base:   Hmoore (inferida de conexión)
+  Server: 192.168.0.224 (inferido)
+  Schema: dbo (por defecto)
+
+  TABLAS IDENTIFICADAS DEL MÓDULO:
+
+  1. sistemas_areas
+     - id_area (PK, int)
+     - nombre (varchar)
+     - descripcion (varchar, nullable)
+     - activo (bit, default 1)
+
+  2. sistemas_categoria
+     - IdCategoria (PK, int)
+     - IdArea (FK → sistemas_areas.id_area)
+     - Nombre (varchar)
+     - Descripcion (varchar, nullable)
+     - Activo (bit, default 1)
+
+  3. sistemas_documentaciones
+     - id_documento (PK, int)
+     - id_area (FK → sistemas_areas.id_area)
+     - titulo (varchar)
+     - descripcion (varchar, nullable)
+     - archivo (varchar) — nombre físico del archivo
+     - extension (varchar) — pdf, doc, docx, xls, xlsx
+     - peso_kb (int)
+     - fecha_creacion (datetime, default GETDATE())
+     - creado_por (varchar, nullable) — username de quien cargó
+     - id_categoria (FK → sistemas_categoria.IdCategoria, nullable)
+     - activo (bit, default 1)
+
+  4. Usuarios (tabla corporativa existente, compartida)
+     - IdUsuario (PK, varchar)
+     - Pass (varchar)
+     - Nombre (varchar)
+     - Activo (bit)
+
+  OTRAS TABLAS CORPORATIVAS VISIBLES EN CONSULTAS:
+    Profesionales, Instituto, TipoDoc, Oficinas, CatLaborales,
+    TipoTurnos, TipoSolicitud, MotivoSolicitud, TipoDroga,
+    Pacientes, Turnos, etc. (pertenecen al ecosistema mayor, no al módulo)
+
+  TIPOS DE CONSULTA:
+    - INSERT parametrizado (sqlsrv_query con array de parámetros posicionales)
+    - UPDATE parametrizado
+    - SELECT con JOINs (LEFT JOIN para categorías)
+    - Soft-delete: UPDATE activo=0
+    - COUNT(*) para paginación
+    - ORDER BY para ordenamiento
+
+
+10. AUTENTICACIÓN Y SEGURIDAD
+--------------------------------------------------------------------------------
+  MECANISMO DE AUTENTICACIÓN:
+    - Login: formulario POST valida contra tabla Usuarios (IdUsuario + Pass)
+    - Sesión: $_SESSION['username'] almacena el ID del usuario autenticado
+    - Logout: session_destroy() + redirect a login
+    - Tiempo de sesión: default PHP (hasta cierre de navegador o timeout)
+
+  CONTROL DE ACCESO:
+    - Sin roles/permisos explícitos: cualquier usuario autenticado tiene
+      acceso completo a todas las operaciones CRUD
+    - No hay verificación de sesión en cada página del módulo manuales
+      (session_start() está pero no hay if(!isset($_SESSION['username'])))
+
+  VULNERABILIDADES IDENTIFICADAS (para mejorar):
+    ⚠ Contraseñas en texto plano (Pass sin hash) en la tabla Usuarios
+    ⚠ Ausencia de CSRF tokens en formularios
+    ⚠ Sin verificación de sesión en páginas del módulo (accesible sin login)
+    ⚠ La extensión usada en delete.categoria.php referencia id_area pero no
+       se recibe el parámetro en el código actual (roto? la URL no lo envía)
+
+  FORTALEZAS DE SEGURIDAD:
+    ✅ Prepared statements en TODAS las consultas (sqlsrv_query con parámetros)
+       — protección total contra SQL Injection
+    ✅ htmlspecialchars() en toda salida de datos — protección XSS
+    ✅ Sanitización de nombres de archivo (preg_replace + basename)
+    ✅ Whitelist de extensiones permitidas
+    ✅ Validación de tipo POST en operaciones de escritura
+    ✅ Type casting estricto ((int)$_POST['id'])
+
+  SEGURIDAD EN ARCHIVOS:
+    - Solo se permiten: pdf, doc, docx, xls, xlsx
+    - El nombre final se construye con timestamp + nombre sanitizado
+    - Los directorios se crean con permisos 0775/0777
+
+
+11. FRONTEND
+--------------------------------------------------------------------------------
+  ESTRUCTURA HTML:
+    - HTML5 semántico con <header>, <main>, <footer>
+    - lang="es-AR" en todas las páginas
+    - Meta viewport para responsive
+    - Favicon personalizado
+
+  CSS:
+    - Bootstrap 5.3.0 (CDN)
+    - style.css: personalizado con colores corporativos, fondos, cards
+    - menu.css: header con nav, dropdowns, animaciones hover
+    - footer.css: barra inferior amarilla corporativa
+    - DataTables classes para paginación y filtros
+    - Media queries para mobile (punto de quiebre 500px)
+    - Animación CSS en hover de enlaces (::before con scaleX)
+
+  JAVASCRIPT:
+    - Bootstrap bundle (modal, dropdown, tooltips)
+    - Client-side filtering y búsqueda
+    - Copia al portapapeles (execCommand)
+    - Paginación client-side (JS puro, sin recarga)
+    - Modal CRUD reutilizable (modalCategoria, modalManual)
+    - Manejo de eventos (keyup, change)
+
+  INTERACCIÓN:
+    - Sin recarga de página en búsqueda/filtro
+    - Modales con formularios para operaciones CRUD
+    - Confirmación sweet-spartan con confirm() JS nativo
+    - Feedback visual con iconos y badges
+    - "Copiar ruta" con feedback alert()
+
+
+12. BACKEND
+--------------------------------------------------------------------------------
+  LENGUAJE: PHP 8.x (inferido por sintaxis moderna como named params opcionales)
+  ESTILO:   Procedural, sin POO, sin framework
+
+  PÁGINAS PRINCIPALES:
+    - index.php          → listado de áreas activas
+    - area.php           → CRUD documentos + búsqueda/filtro/paginación
+    - categoria.php      → CRUD categorías
+
+  CRUD (OPERACIONES DE ESCRITURA):
+    - /crud/insert.manual.php     → POST: sube archivo + inserta registro
+    - /crud/update.manual.php     → POST: actualiza metadatos ± archivo
+    - /crud/delete.manual.php     → GET: soft-delete (activo=0)
+    - /crud/insert.categoria.php  → POST: inserta categoría
+    - /crud/update.categoria.php  → POST: actualiza categoría
+    - /crud/delete.categoria.php  → GET: soft-delete categoría
+
+  INCLUDES REUTILIZABLES:
+    - /includes/header.php → barra superior con logos y navegación
+    - /includes/footer.php → pie de página corporativo
+
+  CONEXIÓN A BD:
+    - require_once a ruta relativa (../../conexiones/conexionSQL_Hmoore.php)
+    - Usa extension sqlsrv_* (Microsoft SQL Server Driver for PHP)
+    - Conexión a servidor 192.168.0.224, base Hmoore
+
+
+13. APIs E INTEGRACIONES
+--------------------------------------------------------------------------------
+  APIs PROPIAS:
+    - No expone APIs REST/JSON públicas
+    - El módulo inyecta un JSON de documentos en area.php:
+        const documentos = <?= json_encode($documentos, ...) ?>;
+      Esto funciona como "API interna" de datos embebida en la página.
+
+  INTEGRACIONES EXISTENTES:
+    - Portal intranet corporativo (http://web/portal/) — link en header
+    - Sistema de Monitoreo (/Sistemas/ManualesSistemas/Monitoreo/index.php)
+      — link en menú principal
+    - Sistema de Padrones (/Padrones/cargaralfabeta.php)
+    - Autenticación corporativa contra tabla Usuarios (BD Hmoore)
+    - Enlace a documentación legacy HTML
+      (../../../Desarrollo/{area}.html)
+
+  DEPENDENCIAS EXTERNAS (CDN):
+    - Bootstrap 5.3.0 CSS/JS
+    - Bootstrap Icons 1.11.2
+    - No usa npm/webpack/vite — todo vía CDN o local
+
+
+14. PANEL ADMIN / CRUD
+--------------------------------------------------------------------------------
+  No existe un "panel admin" separado. La funcionalidad de administración está
+  embebida en las vistas regulares:
+
+  - Los botones de acción (editar/eliminar/agregar) son visibles para
+    cualquier usuario autenticado.
+  - No hay diferenciación entre usuario regular y administrador.
+  - Las operaciones se realizan mediante modales Bootstrap que cargan
+    formularios con action apuntando a los scripts CRUD.
+  - Confirmación de borrado con confirm() nativo de JS.
+  - La gestión de categorías tiene su propia página (categoria.php) que
+    funciona como abm independiente.
+
+
+15. ROLES Y PERMISOS
+--------------------------------------------------------------------------------
+  MODELO ACTUAL (INFERIDO):
+    - No hay sistema de roles implementado
+    - Cualquier usuario en la tabla Usuarios con Activo=1 puede acceder
+    - Todos los usuarios autenticados tienen permisos completos (CRUD)
+    - No hay log de acciones ni auditoría
+
+  POSIBLE MEJORA:
+    - Implementar RBAC con roles tipo: Lector, Editor, Admin
+    - Auditoría de cambios (quién creó/modificó cada documento)
+    - El campo "creado_por" ya existe en sistemas_documentaciones
+
+
+16. DASHBOARD / REPORTES
+--------------------------------------------------------------------------------
+  NO APLICA. El proyecto no incluye dashboards, gráficas ni reportes.
+  Es puramente un sistema de gestión documental (DMS) con listados y CRUD.
+  La visualización principal es la tabla de documentos con búsqueda/filtro.
+
+
+17. ESTRUCTURA DEL PROYECTO
+--------------------------------------------------------------------------------
+  (Ruta base: /Sistemas/ManualesSistemas/)
+
+  manuales/                          ← Módulo de manuales (este proyecto)
+  ├── index.php                      ← Home: lista áreas activas (cards)
+  ├── area.php                       ← Documentos por área + CRUD completo
+  ├── categoria.php                  ← ABM de categorías
+  ├── includes/
+  │   ├── header.php                 ← Header con logos + nav (simplificado)
+  │   └── footer.php                 ← Footer corporativo
+  ├── crud/
+  │   ├── insert.manual.php          ← Create: documento + archivo
+  │   ├── update.manual.php          ← Update: metadatos ± archivo
+  │   ├── delete.manual.php          ← Soft-delete: documento
+  │   ├── insert.categoria.php       ← Create: categoría
+  │   ├── update.categoria.php       ← Update: categoría
+  │   └── delete.categoria.php       ← Soft-delete: categoría
+  └── uploads/                       ← Archivos físicos
+      ├── desarrollo/                ← 35+ documentos (.docx, .doc, .pdf)
+      └── infraestructura/           ← 20+ documentos (.docx, .xls, .pdf, .doc)
+
+  OTROS MÓDULOS DEL ECOSISTEMA (misma raíz):
+    login_acceso.php                 ← Login de usuarios
+    logout.php                       ← Cierre de sesión
+    menu_manuales.php                ← Menú principal interno (con auth)
+    clases/
+      clases.php                     ← Helpers: consulta usuario, selects varios
+      clase_login_acceso.php         ← Procesa login (valida credenciales)
+    componentes/
+      menu.php                       ← Menú principal con nav y opciones
+      menulogin.php
+      footer.php
+    css/                             ← Bootstrap 5, estilos custom
+    js/                              ← jQuery, DataTables, scripts custom
+    img/                             ← Logos, favicon, fondos
+    Monitoreo/                       ← Módulo de monitoreo de errores en tiempo real
+    ├── index.php                    ← Dashboard con cards, gráficos (Chart.js) y tabla
+    ├── ajax_errores.php             ← API JSON: consulta errores, nuevos, resúmenes
+    ├── detalle_error.php            ← API JSON: detalle completo de un error
+    └── includes/
+        ├── header.php               ← Header corporativo (reutiliza estilo portal)
+        └── footer.php               ← Footer corporativo
+    PadronesProduccion/              ← Otro módulo (fuera de scope)
+    Desarrollo/                      ← Documentación legacy + SQL scripts
+    Infraestructura/                 ← Documentación legacy
+
+  NOTA: La estructura sigue una organización plana clásica de PHP sin
+  framework, con separación de responsabilidades básica (vistas en .php
+  raíz, operaciones en /crud/, includes reutilizables, assets en carpetas
+  separadas).
+
+
+18. PATRONES Y BUENAS PRÁCTICAS
+--------------------------------------------------------------------------------
+  ✅ IMPLEMENTADOS:
+    - Consultas parametrizadas (prepared statements) en TODAS las queries
+    - Escape de salida con htmlspecialchars()
+    - Soft-delete lógico (no destrucción de datos)
+    - Type casting (int) en inputs numéricos
+    - Whitelist de extensiones (solo formatos seguros)
+    - Sanitización de nombres de archivo (caracteres seguros + timestamp)
+    - Separación de responsabilidades (vistas vs operaciones vs includes)
+    - Redirección POST/GET después de operaciones de escritura (PRG)
+    - Validación de método HTTP (POST check en operaciones de escritura)
+    - Reutilización de componentes (header, footer)
+    - Mensajes de error informativos (die con print_r de errores)
+    - Responsive design con Bootstrap grid
+
+  ⚠ NO IMPLEMENTADOS (OPORTUNIDADES DE MEJORA):
+    - Autenticación faltante en páginas del módulo (sin check de sesión)
+    - Contraseñas en texto plano (falta password_hash/password_verify)
+    - Sin CSRF tokens
+    - Sin validación server-side en algunos campos (descripción muy larga)
+    - Sin logging de acciones (quién editó qué y cuándo)
+    - Sin manejo de errores estructurado (die() genérico)
+    - Sin sanitización de entrada GET en delete.categoria.php (parámetro
+      id_area referenciado pero no recibido — posible bug)
+    - Sin POO ni namespaces
+    - Sin sistema de archivos con control de versiones
+    - Sin caché ni optimización de assets
+    - Código duplicado en la lógica de extensión/icono (server + client)
+
+
+19. PERFORMANCE
+--------------------------------------------------------------------------------
+  PUNTOS FUERTES:
+    - Paginación server-side (10 registros por página)
+    - Búsqueda/filtro client-side sobre JSON precargado (sin recarga)
+    - Assets vía CDN (Bootstrap, Icons) con caché del navegador
+    - Consultas SQL con JOINs y filtros en WHERE
+
+  PUNTOS DÉBILES:
+    - La página area.php carga TODOS los documentos en un array PHP antes
+      de paginar server-side, y también los embebe como JSON para el
+      filtro client-side. Con 50+ documentos no hay problema, pero no escala
+      a miles.
+    - Sin lazy loading para nada
+    - Sin compresión ni minificación de assets (todo es full-size CDN)
+    - Sin índices explícitos (depende de la BD)
+    - Las imágenes de fondo (foto.jpg) son pesadas para mobile
+
+  ESCALABILIDAD:
+    - Aceptable para 100-200 documentos y decenas de usuarios simultáneos
+    - El cuello de botella sería la BD si el ecosistema completo (portal)
+      comparte el mismo SQL Server
+    - Para escalar a miles de documentos, habría que migrar a búsqueda
+      server-side y paginación real
+
+
+20. RESPONSIVE DESIGN
+--------------------------------------------------------------------------------
+  ✅ Bootstrap 5 grid system (col-* clases)
+  ✅ Meta viewport configurado
+  ✅ Media query @ 500px para ajustes mobile:
+      - main min-height ajustado
+      - footer posición absoluta
+      - botones con margen automático
+  ✅ Tablas con .table-responsive (scroll horizontal en mobile)
+  ✅ Cards adaptables (col-md-4, col-lg-*, etc.)
+  ✅ Input group y form-select responsivos
+  ✅ Modal con modal-lg y modal-dialog-centered
+
+  OBSERVACIONES:
+    - El header con dos imágenes (logos) y navegación puede apretarse en
+      pantallas muy pequeñas (< 360px)
+    - La tabla tiene muchas columnas (7), en mobile la experiencia no es
+      óptima aunque Bootstrap la haga scrolleable
+
+
+21. TESTING
+--------------------------------------------------------------------------------
+  NO APLICA. El proyecto no incluye ningún tipo de testing automatizado:
+    - Sin tests unitarios
+    - Sin tests de integración
+    - Sin tests end-to-end
+    - Sin CI pipeline
+    - Sin archivos de configuración de testing
+
+  Es código legacy de intranet con validación manual (probar en navegador).
+
+
+22. DOCKER / CI/CD / CLOUD
+--------------------------------------------------------------------------------
+  NO APLICA. El proyecto:
+    - Corre en un servidor Windows con XAMPP (instalación tradicional)
+    - Sin contenedores Docker
+    - Sin pipeline CI/CD
+    - Sin despliegue cloud (on-premise)
+    - Sin archivos de configuración de infraestructura como código
+
+  INFRAESTRUCTURA INFERIDA:
+    - Servidor Windows en red local (192.168.0.225)
+    - XAMPP como stack LAMP-like
+    - SQL Server en otro servidor (192.168.0.224)
+    - Acceso vía intranet (no expuesto a internet)
+    - Backup manual o por políticas de red corporativas
+
+
+23. NIVEL TÉCNICO Y SENIORITY
+--------------------------------------------------------------------------------
+  NIVEL DEL PROYECTO:    Junior → Semi-Senior (en transición)
+  COMPLEJIDAD:           Baja-Media
+
+  LO QUE DEMUESTRA:
+    - Conocimiento sólido de PHP procedural y SQL Server
+    - Capacidad de construir un CRUD completo funcional
+    - Preocupación por seguridad básica (prepared statements, XSS)
+    - Manejo de subida de archivos con validaciones
+    - Integración con sistemas legacy (BD corporativa, autenticación)
+    - Capacidad de crear UI funcional con Bootstrap
+    - Conocimiento de patrones de paginación y filtrado
+
+  LO QUE FALTA PARA SENIOR:
+    - Arquitectura MVC u orientación a objetos
+    - Sistema de autenticación y autorización robusto
+    - Tests automatizados
+    - Manejo de errores profesional (try/catch, logging, exceptions)
+    - Seguridad avanzada (CSRF, hashing de contraseñas, rate limiting)
+    - Optimización de performance para escala
+    - Principios SOLID, clean code, separación de capas
+    - Patrón Repository / Service Layer
+    - Documentación del código
+    - CI/CD, Docker, cloud
+
+  PERFIL DEL DESARROLLADOR:
+    Desarrollador full-stack junior-semi-senior con foco en intranet
+    corporativa, capaz de resolver problemas reales de negocio con
+    tecnología simple pero efectiva. Sin experiencia en arquitecturas
+    modernas pero con buen entendimiento de los fundamentos web.
+
+
+24. DESAFÍOS Y SOLUCIONES TÉCNICAS
+--------------------------------------------------------------------------------
+  DESAFÍO 1 — Centralizar documentación dispersa
+    Solución: Crear un sistema web con estructura jerárquica
+    (Área → Categoría → Documento) que reemplazó carpetas de red
+    sin organización.
+
+  DESAFÍO 2 — Archivos duplicados y sin control
+    Solución: Carga vía web con renombrado automático
+    (timestamp + nombre) y organización en subdirectorios por área.
+    Validación de extensiones y peso.
+
+  DESAFÍO 3 — Búsqueda lenta en archivos de red
+    Solución: Búsqueda client-side en JavaScript con filtro combinado
+    (texto + categoría) + paginación para respuesta instantánea sin
+    recargar la página.
+
+  DESAFÍO 4 — Integración con sistema legacy
+    Solución: Reutilizar conexión SQL Server existente y tabla de
+    usuarios corporativa para autenticación, sin duplicar datos.
+
+  DESAFÍO 5 — Acceso a archivos desde Windows
+    Solución: Botón "Copiar ruta" que copia la UNC completa al
+    portapapeles, permitiendo a los usuarios pegar la ruta en
+    Explorer o soporte técnico.
+
+  DESAFÍO 6 — Sin pérdida de datos
+    Solución: Soft-delete en todas las entidades (activo=0 en lugar
+    de DELETE). Los archivos físicos nunca se eliminan, solo se
+    ocultan de la vista.
+
+
+25. DIFERENCIADORES
+--------------------------------------------------------------------------------
+  FRENTE A SOLUCIONES COMERCIALES (SharePoint, Confluence, etc.):
+    ✅ 100% interno, sin costos de licencia
+    ✅ Hecho a medida del flujo del área de Sistemas
+    ✅ Integración directa con la BD corporativa
+    ✅ Extremadamente ligero (PHP plano + SQL Server)
+    ✅ Sin dependencias externas complejas
+    ✅ Despliegue inmediato en XAMPP existente
+
+  FRENTE A PROYECTOS OPEN SOURCE (DocuWiki, BookStack, etc.):
+    ✅ Sin instalación de software adicional (solo PHP nativo)
+    ✅ Curva de aprendizaje cero para el equipo interno
+    ✅ UI familiar (Bootstrap, misma identidad que el portal)
+    ✅ Permisos controlados desde la autenticación corporativa
+
+  COMO PROYECTO DE PORTFOLIO:
+    ✅ Proyecto real en producción (no es "toy project")
+    ✅ Utilizado por un equipo de TI real
+    ✅ Resuelve un problema de negocio concreto y medible
+    ✅ Muestra comprensión del ciclo completo: DB → Backend → Frontend
+    ✅ Documenta buenas prácticas de seguridad (prepared statements)
+    ✅ Integración con sistemas legacy (valor enorme en empresa real)
+
+
+26. IMPACTO PROFESIONAL
+--------------------------------------------------------------------------------
+  VALOR PARA EL NEGOCIO:
+    - Reducción de tiempo de búsqueda de documentación técnica
+    - Centralización del conocimiento del departamento de Sistemas
+    - Incorporación más rápida de nuevos empleados
+    - Estandarización de procedimientos documentados
+    - Trazabilidad de versiones de documentación
+
+  MÉTRICAS ESTIMADAS (inferidas del volumen de datos):
+    - +55 documentos técnicos cargados
+    - 2 áreas activas (desarrollo, infraestructura)
+    - Múltiples categorías por área
+    - Uso diario por el equipo de Sistemas
+    - Acceso desde toda la red corporativa (sin VPN/internet)
+
+  APORTE TÉCNICO:
+    - Primer sistema web del área para gestión documental
+    - Reemplazo de proceso manual/desorganizado por sistema digital
+    - Base para futuros módulos (la arquitectura es extensible)
+
+
+27. HABILIDADES DEMOSTRADAS
+--------------------------------------------------------------------------------
+  TÉCNICAS:
+    ✓ PHP (procedural, sesiones, manejo de archivos)
+    ✓ Microsoft SQL Server (consultas, JOINs, parámetros)
+    ✓ SQLSRV (Microsoft Drivers para PHP)
+    ✓ HTML5 semántico + CSS3 responsive
+    ✓ Bootstrap 5 (grid, modals, tables, forms, utilities)
+    ✓ JavaScript (manipulación del DOM, eventos, JSON)
+    ✓ Control de versiones (si se usó Git)
+    ✓ Integración de sistemas legacy
+    ✓ Subida y manejo de archivos en servidor web
+    ✓ Soft-delete pattern
+    ✓ Paginación (server + client-side)
+    ✓ Filtrado y búsqueda client-side
+    ✓ Seguridad web básica (SQLi, XSS)
+
+  BLANDAS:
+    ✓ Autonomía técnica
+    ✓ Resolución de problemas reales
+    ✓ Comprensión de necesidades del negocio
+    ✓ Documentación y organización de código
+    ✓ Trabajo en entorno corporativo
+    ✓ Respeto por identidad visual corporativa
+
+
+28. KEYWORDS ATS 2026
+--------------------------------------------------------------------------------
+PHP, SQL Server, HTML5, CSS3, Bootstrap 5, JavaScript, XAMPP, Windows Server,
+Desarrollo Web, Full Stack, CRUD, DMS, Gestión Documental, Intranet, Portal
+Corporativo, Subida de Archivos, Prepared Statements, Seguridad Web, SQL
+Injection Prevention, XSS Protection, Soft Delete, Paginación, Filtros,
+Responsive Design, MVC sin framework, Procedural PHP, Microsoft SQL Server
+Driver, T-SQL, Session Management, File Upload, Sanitization, Whitelist
+Validation, Bootstrap Modal, DataTables, jQuery, Sistemas de Salud, HTML
+semántico, CSS3 custom properties, Portfolio, Case Study, Análisis Técnico.
+
+
+29. BULLETS PARA CV
+--------------------------------------------------------------------------------
+• Desarrollé un sistema web full-stack (PHP + SQL Server + Bootstrap 5) para
+  la gestión centralizada de toda la documentación técnica del departamento
+  de Sistemas, reemplazando carpetas de red desorganizadas.
+
+• Implementé CRUD completo con subida de archivos (PDF, DOC, DOCX, XLS, XLSX),
+  validación de extensiones, sanitización de nombres, soft-delete lógico y
+  organización física por áreas.
+
+• Diseñé un sistema de búsqueda client-side con filtro combinado (texto +
+  categoría) y paginación dinámica, logrando respuesta instantánea sin
+  recarga de página para +55 documentos activos.
+
+• Integré autenticación contra base de datos corporativa existente (SQL
+  Server), reutilizando la tabla de usuarios y sesiones PHP.
+
+• Apliqué medidas de seguridad web: prepared statements anti-SQLi,
+  htmlspecialchars anti-XSS, whitelist de extensiones, type casting y
+  sanitización de entradas.
+
+• Construí interfaz responsive con Bootstrap 5, modales CRUD, iconografía
+  por tipo de archivo, badges de categoría y tooltips de copia al
+  portapapeles (ruta UNC de red).
+
+• Organicé el código con separación de capas (vistas, operaciones CRUD,
+  includes reutilizables), siguiendo patrón PRG (Post/Redirect/Get).
+
+
+30. TEXTO PARA LINKEDIN
+--------------------------------------------------------------------------------
+📄 PROYECTO REAL: Sistema de Gestión de Manuales TI
+
+En el grupo de salud Henry Moore / Oncomed Reno, el departamento de Sistemas
+enfrentaba un problema clásico: la documentación técnica estaba dispersa en
+carpetas de red compartidas sin organización, sin búsqueda y sin control.
+
+Desarrollé "Manuales de Sistemas", un sistema web interno construido con PHP,
+SQL Server y Bootstrap 5 que centraliza +55 documentos técnicos (manuales,
+procedimientos de infraestructura y desarrollo) en un repositorio digital
+con búsqueda, filtros, categorización jerárquica y CRUD completo.
+
+🔧 Stack: PHP (procedural) | Microsoft SQL Server | Bootstrap 5 | JavaScript
+| XAMPP | Windows Server
+
+✨ Funcionalidades clave:
+- CRUD completo con subida de archivos y soft-delete
+- Búsqueda client-side + filtro por categoría
+- Paginación server/client combinada
+- Autenticación corporativa (sesiones)
+- Seguridad: prepared statements, XSS escape, whitelist de extensiones
+- Organización física de archivos por área
+- Copia de ruta UNC a portapapeles
+
+💡 Lo que aprendí:
+- Cómo integrar sistemas legacy con tecnologías web modernas
+- La importancia de la seguridad incluso en proyectos internos
+- Cómo transformar un proceso manual desorganizado en una herramienta
+  digital que el equipo usa a diario
+- Que a veces la mejor solución no es la más compleja, sino la que
+  resuelve el problema de forma pragmática
+
+#PHP #SQLServer #DesarrolloWeb #FullStack #Bootstrap #DMS #Intranet
+#SistemasDeSalud #ProyectoReal #Portfolio
+
+
+31. RESUMEN TIPO CASE STUDY
+--------------------------------------------------------------------------------
+  TÍTULO:  Centralización de Documentación Técnica con PHP + SQL Server
+
+  CLIENTE: Departamento de Sistemas — Henry Moore / Oncomed Reno SA
+           (Grupo de salud, CABA, Argentina)
+
+  PROBLEMA:
+    La documentación técnica del área de Sistemas (manuales, instructivos,
+    procedimientos de infraestructura y desarrollo) estaba almacenada en
+    carpetas de red sin estructura, sin buscador, sin categorización y sin
+    control de acceso. Cada miembro del equipo guardaba sus documentos
+    localmente, generando duplicados, versiones obsoletas y pérdida de
+    tiempo en búsquedas.
+
+  SOLUCIÓN:
+    Sistema web DMS (Document Management System) a medida, integrado al
+    portal intranet corporativo, que permite:
+    - Navegar áreas y categorías
+    - Visualizar documentos con metadatos
+    - Buscar y filtrar en tiempo real
+    - Cargar, editar e inactivar documentos (soft-delete)
+    - Gestionar categorías por área
+    - Copiar rutas de red directamente al portapapeles
+
+  TECNOLOGÍAS:
+    PHP 8, Microsoft SQL Server, Bootstrap 5, JavaScript vanilla, XAMPP,
+    Windows Server, SQLSRV drivers.
+
+  RESULTADOS:
+    - +55 documentos técnicos organizados y accesibles desde toda la red
+    - 2 áreas activas (Desarrollo + Infraestructura)
+    - Búsqueda instantánea client-side
+    - Cero costos de licencia (solución 100% interna)
+    - Integración con autenticación corporativa existente
+    - Reemplazo completo del sistema legacy de carpetas compartidas
+
+   MI ROL:
+     Desarrollo full-stack: diseño de BD, backend PHP, frontend Bootstrap,
+     integración con sistemas legacy, seguridad, subida de archivos,
+     despliegue en producción.
+
+
+32. MÓDULO DE MONITOREO DE ERRORES EN TIEMPO REAL
+================================================================================
+   TÍTULO:  Sistema de Monitoreo de Errores Multi-Base de Datos
+   RUTA:    /Sistemas/ManualesSistemas/Monitoreo/
+
+   DESCRIPCIÓN GENERAL:
+     Dashboard web en tiempo real que consolida y visualiza errores de
+     aplicación desde dos bases de datos SQL Server independientes (Hmoore
+     y AgendaWO). Proporciona cards de resumen por período, gráficos
+     interactivos con Chart.js, tabla de errores con filtros combinados,
+     detalle expandido en modal, y auto-refresh con notificaciones de
+     nuevos errores sin recargar la página.
+
+   FUNCIONALIDADES PRINCIPALES:
+     a) Conexión simultánea a dos bases de datos (Hmoore + AgendaWO) desde
+        un mismo dashboard, con lógica de consolidación de resultados.
+
+     b) Cards de resumen con conteo de errores por período:
+        - Últimas 24 horas (card primary)
+        - Última semana (card warning)
+        - Último mes (card danger)
+        - Último año (card success)
+
+     c) Gráfico de barras (Chart.js): Errores por aplicación en las
+        últimas 24 horas, con datos agregados de ambas bases.
+
+     d) Gráfico de línea (Chart.js): Tendencia de errores diaria en los
+        últimos 7 días, también consolidado.
+
+     e) Selector de base de datos: permite filtrar la vista por:
+        - Ambas bases (default)
+        - Solo Hmoore
+        - Solo AgendaWO
+
+     f) Tabla de errores en tiempo real con columnas:
+        Fecha/Hora, Base Datos, Aplicación, Entorno (PROD/otros),
+        Mensaje, Endpoint, Status Code, Usuario, IP, y botón de detalle.
+
+     g) Filtros combinados:
+        - Por período (24h, semana, mes, año)
+        - Por aplicación (dropdown poblado dinámicamente)
+        - Búsqueda por texto libre en mensaje/detalle/endpoint (con
+          debounce de 500ms)
+
+     h) Auto-refresh cada 30 segundos con contador regresivo visible,
+        que actualiza la tabla, los contadores y detecta nuevos errores.
+
+     i) Notificaciones de nuevos errores en tiempo real:
+        - Alerta visual (banner rojo dismissible) con mensaje del error
+        - Alerta sonora si el navegador lo soporta
+        - Desaparece automáticamente a los 5 segundos
+
+     j) Modal de detalle completo del error con:
+        - Datos generales (BD, app, entorno, fecha, usuario, IP)
+        - Endpoint, método HTTP, status code
+        - Mensaje de error en alerta roja
+        - Detalle técnico en preformateado con scroll
+        - JSON Request formateado (pretty-print)
+
+     k) Detección de errores nuevos mediante polling: consulta por
+        Id > últimoIdConocido y muestra notificación sin recargar.
+
+   STACK TECNOLÓGICO:
+     CAPA          TECNOLOGÍA                     VERSIÓN / DETALLE
+     ────────────  ─────────────────────────────  ──────────────────────────────
+     Frontend      HTML5 + CSS3                   Semántico, responsive
+                   Bootstrap                      5.3.0 (CDN)
+                   Bootstrap Icons                1.11.2 (CDN)
+                   Chart.js                       4.x (CDN) — gráficos
+                   JavaScript (Vanilla)           ES6, fetch(), Promises
+                   CSS Grid / Flexbox             Layout responsive
+
+     Backend       PHP (procedural)               8.x
+                   SQLSRV Extension               Microsoft Drivers for PHP
+                   JSON response                  APIs ajax_errores.php
+                   Sesiones PHP                   session_start()
+
+     Bases de      Microsoft SQL Server (x2)      Hmoore + AgendaWO
+     Datos         Tabla: LogsSistema             Esquema unificado
+
+     Servidor      XAMPP + Apache                 Windows
+                   Windows Server                 Red local
+
+   ARQUITECTURA DEL MÓDULO:
+
+     Navegador
+        │
+        ▼
+     Monitoreo/index.php
+        │
+        ├── require("conexionSQL_Hmoore.php")    ← Conexión BD1
+        ├── require("conexionSQL_AgendaWO.php")  ← Conexión BD2
+        ├── Consultas iniciales (server-side):
+        │   ├── getResumenBothDBs()              ← Conteos por período
+        │   ├── Errores por app (agrupado)       ← Para gráfico barras
+        │   └── Tendencia 7 días (agrupado)      ← Para gráfico línea
+        ├── HTML con datos embebidos (JSON):
+        │   ├── erroresPorApp (Chart.js)
+        │   └── tendenciaData (Chart.js)
+        └── JS: auto-refresh, polling, alerts, modales
+
+     APIs AJAX (JSON):
+       ajax_errores.php?periodo=&aplicacion=&busqueda=&base=&ultimoId=
+         → consulta ambas BD (o una según selector)
+         → devuelve: { errores[], nuevosErrores[], ultimoId, resumen{} }
+
+       detalle_error.php?id=&base=
+         → consulta BD específica por Id
+         → devuelve: { success, error{...} }
+
+   BASE DE DATOS (Tabla compartida en ambas BD):
+     LogsSistema
+       - Id (PK, int, identity)
+       - Aplicacion (varchar)
+       - Entorno (varchar) — PROD, TEST, etc.
+       - Fecha (datetime)
+       - Nivel (varchar) — ERROR, WARNING, INFO
+       - Mensaje (varchar)
+       - Detalle (varchar, nullable)
+       - Endpoint (varchar, nullable)
+       - MetodoHttp (varchar, nullable)
+       - StatusCode (int, nullable)
+       - Usuario (varchar, nullable)
+       - Ip (varchar, nullable)
+       - JsonRequest (varchar, nullable)
+
+   SEGURIDAD:
+     ✅ Type casting estricto ((int)$_GET['id'])
+     ✅ htmlspecialchars() en toda salida hacia el DOM
+     ✅ Escape anti-XSS manual (función escapeHtml() en JS)
+     ✅ Las consultas no usan prepared statements consistentemente
+        (algunas concatenan string escapado manualmente con str_replace
+        para evitar SQLi básico) — oportunidad de mejora
+     ✅ Verificación de conexión antes de ejecutar consultas
+     ✅ Los archivos PHP devuelven JSON, no exponen HTML
+
+   PATRONES Y BUENAS PRÁCTICAS:
+     ✅ Separación de responsabilidades: vista (index.php), API
+        (ajax_errores.php, detalle_error.php), includes (header/footer)
+     ✅ Polling con detección de nuevos registros (ultimoId)
+     ✅ Debounce en búsqueda (500ms)
+     ✅ Auto-refresh con contador regresivo visible
+     ✅ Chart.js con datos embebidos del server-side
+     ✅ Selector de BD client-side sin recarga de página
+     ✅ Fetch API moderna con Promises
+     ✅ Manejo de fechas DateTime desde SQL Server (formateo condicional)
+     ✅ Consolidación de datos multi-BD en una sola vista
+
+   OPORTUNIDADES DE MEJORA:
+     ⚠ Migrar a prepared statements en lugar de escape manual en
+        ajax_errores.php (las variables $aplicacion y $busqueda se
+        concatenan con str_replace en vez de usar sqlsrv_query con
+        parámetros)
+     ⚠ Sin paginación server-side en la tabla (OFFSET FETCH fijo a 200)
+     ⚠ Sin autenticación/control de acceso (accesible sin login)
+     ⚠ Sin logging de consultas lentas
+     ⚠ Sin CSRF protection
+     ⚠ Las funciones de conexión re-incluyen los archivos en cada
+        llamada AJAX (no hay conexión persistente)
+     ⚠ Sin manejo de errores de red en fetch() (solo console.error)
+
+   IMPACTO:
+     - Permite al equipo de Sistemas detectar errores de producción en
+       tiempo real sin revisar logs manualmente
+     - Centraliza errores de dos aplicaciones (Hmoore + AgendaWO) en
+       un solo panel
+     - Reduce tiempo de respuesta ante incidentes gracias a
+       notificaciones automáticas
+     - Los gráficos de tendencia ayudan a identificar patrones y picos
+       de errores
+     - El detalle expandido evita tener que conectarse a la BD para
+       investigar un error
+
+================================================================================
+  Fin del Análisis Técnico Profesional
+  Generado automáticamente desde el código fuente
+  Fecha: 26 de Mayo de 2026
+================================================================================

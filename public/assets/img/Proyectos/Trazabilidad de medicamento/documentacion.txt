@@ -1,0 +1,563 @@
+================================================================================
+                ANÁLISIS PROFESIONAL DE PROYECTO — PORTFOLIO
+================================================================================
+
+TÍTULO PROFESIONAL:
+====================
+Sistema de Gestión de Depósito Descartable y Soluciones
+(Warehouse & Inventory Management System for Medical Supplies)
+
+SUBTÍTULO:
+===========
+Plataforma web corporativa para la gestión integral del ciclo de solicitud,
+autorización, preparación y recepción de insumos descartables y soluciones
+hospitalarias — Henry Moore / Oncomed Reno SA
+
+DESCRIPCIÓN CORTA:
+===================
+Sistema web interno que digitaliza y automatiza el flujo completo de solicitud
+de materiales descartables y soluciones para una droguería oncológica. Reemplaza
+procesos manuales con un workflow de 4 etapas (Solicitar → Autorizar → Preparar →
+Recibir), notificaciones por email, trazabilidad de lotes y reportes de egreso.
+Construido en PHP nativo con Bootstrap 5, SQL Server + MySQL, y PHPMailer.
+
+DESCRIPCIÓN TÉCNICA:
+=====================
+Aplicación web transaccional desarrollada en PHP 7+ procedural, con arquitectura
+monolítica de página única por operación. El frontend utiliza Bootstrap 5.3,
+jQuery 3.6, Bootstrap Icons y DataTables para tablas interactivas. El backend
+opera sobre Microsoft SQL Server (motor principal) con Linked Server a MySQL
+(MariaDB) vía OPENQUERY para consultas en tiempo real al sistema legacy de stock
+(drugstore). La autenticación es por formulario contra tabla Usuarios con
+sesiones PHP nativas. El envío de correos usa PHPMailer con SMTP autenticado.
+La seguridad se implementa mediante permisos por usuario-aplicación-acción en
+tabla UsuariosAplicaciones. Los reportes se generan en HTML con impresión nativa
+y exportación a PDF. La trazabilidad se registra en tablas dedicadas con
+timestamp, usuario y dirección IP. El servidor es IIS con SQL Server Native
+Client (sqlsrv).
+
+STORYTELLING:
+=============
+En una droguería oncológica de Buenos Aires, la gestión de insumos descartables
+y soluciones se manejaba con planillas, llamadas telefónicas y correos sueltos.
+El proceso era propenso a errores, sin trazabilidad ni control de stock en
+tiempo real.
+
+Se desarrolló este sistema para digitalizar el flujo completo: el personal
+solicita insumos desde un catálogo con stock visible, un supervisor autoriza
+(lo que descuenta automáticamente del inventario real en MySQL vía linked
+server), el depósito prepara el pedido, y el solicitante confirma recepción.
+Cada paso envía notificaciones por email a los actores involucrados.
+
+El resultado: trazabilidad total por lote y vencimiento, reducción de errores,
+visibilidad en tiempo real del estado de cada solicitud, y un histórico auditable
+con registro de IP y operación. El sistema se convirtió en una herramienta
+crítica para la operación diaria, integrada al ecosistema corporativo existente.
+
+FUNCIONALIDADES PRINCIPALES:
+============================
+
+ 1. SOLICITUD DE ARTÍCULOS DESCARTABLES
+    - Catálogo de productos con stock actual en tiempo real (vía Linked Server)
+    - Selección de tipo de entrega
+    - Validación de stock antes de guardar
+    - Límite de solicitudes pendientes por usuario (1 genérica, 3 para esantos)
+    - Tabla de detalle con eliminación individual de artículos
+
+ 2. SOLICITUD DE SOLUCIONES
+    - Similar a descartables pero para soluciones hospitalarias (group_id=8)
+    - Flujo independiente con su propia tabla de seguimiento
+
+ 3. AUTORIZACIÓN DE SOLICITUDES (Panel de Seguimiento)
+    - Dashboard unificado que muestra solicitudes pendientes de ambos tipos
+    - Indicadores visuales con semáforo: verde (completado) / rojo (pendiente)
+    - Acciones: Autorizar, Preparar, Recibir desde la misma fila
+    - Descuento inteligente de stock por lote (FIFO) con OPENQUERY
+    - Registro de trazabilidad con lote, vencimiento, remito
+
+ 4. PREPARACIÓN DE PEDIDOS
+    - Marcar solicitud como preparada con registro de usuario y timestamp
+    - Verificación de que la solicitud fue autorizada previamente
+
+ 5. RECEPCIÓN DE PEDIDOS
+    - El solicitante original confirma la recepción
+    - Validación de que solo el creador puede recibir
+
+ 6. NOTIFICACIONES POR EMAIL (PHPMailer vía SMTP)
+    - Al crear solicitud: aviso a administración, autorizadores y grupo 5
+    - Al autorizar: detalle con lote, vencimiento y cantidades aprobadas
+    - Recordatorio de recibir: email automático al solicitante con link
+    - Recordatorio de preparar: email a preparadores y despachos
+
+ 7. MAESTRO DE ARTÍCULOS (CRUD)
+    - ABM completo con activos/inactivos, filtro por radio button
+    - Campos: UxB, Stock Seguridad, Consumo Mensual
+    - Gestión de estado (activo/inactivo)
+
+ 8. REPORTES
+    - Planilla Técnica de Stock: cruza dos bases de datos (SQL Server + MySQL)
+      con fórmulas de reposición automática (30/45/60 días)
+    - Reporte de Egreso Descartable: filtro por rango de fechas y usuario
+    - Reporte de Egreso Soluciones: similar para soluciones
+    - Visualización de detalle por remito con impresión y PDF
+    - Listado de Remitos con trazabilidad
+
+ 9. TRAZABILIDAD Y AUDITORÍA
+    - Tabla TrazabilidadProductos: registra cada ítem entregado con lote,
+      fecha de vencimiento, remito y cantidad
+    - Tabla TrazaOperacionSistemas: log de cada operación con usuario,
+      timestamp, IP, script y consulta SQL ejecutada
+
+10. GESTIÓN DE USUARIOS Y PERMISOS
+    - Autenticación contra tabla Usuarios (SQL Server)
+    - Permisos granulares por usuario-aplicación-opción (UsuariosAplicaciones)
+    - Roles inferidos: Solicitante, Autorizador, Preparador, Administrador
+
+STACK TECNOLÓGICO:
+===================
+
+Categoría            | Tecnología
+-------------------- | ------------------------------------------------------
+Backend              | PHP 7+ procedural, HTML embebido
+Frontend            | Bootstrap 5.3, jQuery 3.6, Bootstrap Icons 1.11
+Tablas               | DataTables 1.11 (jQuery plugin)
+Base de datos 1      | Microsoft SQL Server (motor principal)
+Base de datos 2      | MySQL/MariaDB (stock legacy vía Linked Server)
+Conexión SQL Server  | sqlsrv_connect (PHP SQLSRV driver)
+Conexión MySQL       | mysqli_connect
+Linked Server        | OPENQUERY(MySQL_HM, ... ) desde SQL Server
+Email                | PHPMailer 5.2+ con SMTP (tinfante@oncomedreno.com.ar)
+Servidor Web         | Microsoft IIS (puerto 8500 inferido)
+Sistema operativo    | Windows Server (inferido por IIS + SQLSRV)
+Control de versiones | Ninguno detectado (no hay .git)
+Entorno              | XAMPP + SQL Server Native Client
+Diseño responsive    | Bootstrap grid system (lg/md/col-*)
+Autenticación        | Sessions PHP nativas + tabla Usuarios
+Seguridad            | Permisos por aplicación/opción por usuario
+
+ESTRUCTURA DEL PROYECTO:
+=========================
+DepositoDescartable/
+├── deposito_Descartable.php          ← Entry point / menú principal
+├── Class/
+│   ├── clases.php                    ← Consultas auxiliares (menú)
+│   ├── clases2.php                   ↑ Idem (otras páginas)
+│   ├── clases3.php                   ↑ Para solicitar descartables
+│   ├── clases4.php                   ↑ Para solicitar soluciones
+│   ├── clase_login_acceso.php        ← Procesa login
+│   ├── clase_solicitar_articulo.php  ← Guarda solicitud descartable
+│   ├── clase_solicitar_articulo_agregar_Modificacion.php
+│   ├── clase_autorizar_solicitud.php ← Autoriza + descuenta stock
+│   ├── clase_preparar_solicitud.php  ← Marca como preparado
+│   ├── clase_recibir_solicitud.php   ← Marca como recibido
+│   ├── clase_modificar_solicitud.php ← Modifica solicitud descartable
+│   ├── clase_modificar_solicitud_soluciones.php
+│   ├── clase_borrar_solicitud_articulo.php
+│   ├── clase_eliminar_solicitud.php
+│   ├── clase_Agregar_articulo.php    ← Crea artículo en maestro
+│   ├── clase_modificar_articulo.php  ← Modifica artículo
+│   ├── class.phpmailer.php           ← PHPMailer library
+│   ├── class.smtp.php                ← SMTP library
+│   └── smtp.config.php               ← Config SMTP (host, user, pass)
+├── Components/
+│   ├── menu.php                      ← Navbar principal
+│   ├── menu.login.php                ← Navbar login público
+│   └── footer.php                    ← Footer institucional
+├── Pages/
+│   ├── Login/
+│   │   ├── login_acceso.php          ← Pantalla de login
+│   │   └── logout.php                ← Cierra sesión
+│   ├── MaestroArticulo/
+│   │   ├── ListarArticulos.php       ← Lista artículos con filtros
+│   │   └── ABM/
+│   │       ├── Crear.Articulo.php    ← Formulario crear artículo
+│   │       ├── modificar_articulo.php← Formulario modificar
+│   │       └── enviar.php            ← (no analizado)
+│   ├── Solicitud/
+│   │   ├── solicitar_articulos.php   ← Formulario solicitud descartable
+│   │   ├── solicitar_soluciones.php  ← Formulario solicitud soluciones
+│   │   ├── autorizar_solicitud.php   ← Dashboard seguimiento
+│   │   ├── listar_modificar_solicitud.php
+│   │   ├── formulario_modificar_solicitud.php
+│   │   ├── formulario_modificar_solicitud_soluciones.php
+│   │   ├── ListarPedido.php          ← Detalle de pedido
+│   │   ├── Agregar_articulos_modificacion.php
+│   │   ├── enviarEmailsArticulosDescartable.php
+│   │   ├── enviarEmailsArticulosEmbalajeAutorizado.php
+│   │   ├── enviarEmailsRecordatorioRecibido.php
+│   │   └── enviarEmailsRecordatorioPreparado.php
+│   └── Reporte/
+│       ├── Reporte.php               ← Reporte remito descartable
+│       ├── Reporte.Egreso.php        ← Reporte egreso descartable
+│       ├── Reporte.Egreso.Soluciones.php
+│       ├── ReporteIngreso.php
+│       ├── planillaStock.php         ← Planilla técnica stock
+│       ├── planillaStock copy.php
+│       ├── enviarReporteEgreso.php   ← Query filtrado egreso
+│       ├── enviarReporteEgreso2.php
+│       ├── enviarReporteEgresoSoluciones.php
+│       ├── detalles_egreso_descartable.php
+│       ├── imprimirSolicitud.php
+│       ├── ImprimirPlanilla.php
+│       ├── reporte_egreso_Descartable_pdf.php
+│       ├── reporte_egreso_Descartable_pdf2.php
+│       └── reporte_egreso_Soluciones_pdf.php
+├── css/
+│   ├── style.css                     ← Estilos personalizados
+│   ├── menu.css                      ← Estilos menú
+│   ├── footer.css                    ← Estilos footer
+│   └── bootstrap*.css               ← Bootstrap local (varios archivos)
+├── js/
+│   ├── main.js                       ← Ajax búsqueda + DataTables init
+│   ├── validaciones.js               ← Validaciones cliente
+│   ├── app.js                        ← Axios (minified)
+│   ├── menu.js / mainMENU.js        ← Menú interactivo
+│   ├── manejodatos.js / resultado.js ← Helpers
+│   ├── jquery-3.3.1.js              ← jQuery local
+│   ├── jquery.easy-autocomplete.min.js
+│   ├── bootstrap*.js                ← Bootstrap bundles
+│   └── jquery.dataTables.min.js      ← DataTables
+├── db/
+│   ├── link_dba.php                  ← Conexión SQL Server (depo_hm)
+│   └── mysql.php                     ← Conexión MySQL (drugstore)
+└── img/
+    ├── hmheader.png / woheader.png   ← Logos corporativos
+    ├── logo1.png / favicon.png
+    ├── FirmaMartin.png / firmaauditar.jpg
+    ├── foto.jpg                      ← Background
+    └── EnConstruccion*.jpg
+
+ARQUITECTURA:
+=============
+Tipo: Monolítica procedural (sin framework)
+Patrón: Page Controller (cada PHP es una página que maneja su propia request)
+Frontend: Server-side rendering con HTML embedido en PHP
+Flujo de datos: Form → POST → PHP class → SQL Server → redirect → GET page
+Base de datos híbrida: SQL Server como oráculo central + Linked Server a MySQL
+  para consultas de stock en tiempo real
+
+El patrón de diseño es "página como controlador": cada archivo .php recibe
+parámetros (GET o POST), procesa lógica de negocio, e incluye HTML para
+renderizar resultado o redirige a otra página. No hay separación MVC; la capa
+de presentación y negocio conviven en el mismo archivo.
+
+BASES DE DATOS:
+===============
+Se identifican 3 bases de datos:
+
+1. hmoore (SQL Server — host: hmdatos1)
+   - Tabla: Usuarios (IDUsuario, Nombre, Pass, Email, Activo)
+   - Tabla: UsuariosAplicaciones (permisos por app/opción)
+   - Tabla: login (mail, grupo)
+   - Tabla: grupos (mail, grupo)
+   - Tabla: CatLaborales
+   - Tabla: TrazaOperacionSistemas
+
+2. depo_hm (SQL Server)
+   - Tabla: SolicitudCabecera (IdSolicitud, IdUsuarioSolicita, FechaSolicitada,
+     IdUsuarioAutoriza, FechaAutorizada, IdUsuarioPrepara, FechaPreparada,
+     IdUsuarioRecibido, FechaRecibido, Observaciones, TipoMovimiento,
+     IdTipoEntrega, TipoArticulo, LugarEntrega)
+   - Tabla: SolicitudDetalle (IdSolicitud, IdArticulo, CantidadSolicitada,
+     CantidadAprobada, FechaRegistro, IdProduct)
+   - Tabla: articulos (id, descripcion, UxB, medio, StockSeguridad, activo,
+     DBconsulta, minimo, critico, informa, mail_1..4)
+   - Tabla: TipoEntrega
+   - Tabla: TrazabilidadProductos
+
+3. drugstore (MySQL — host: 192.168.2.5)
+   - Tabla: product (code, description, active, group_id)
+   - Tabla: Stock (product_id, amount, batch, expiration_date)
+   - Tabla: provider
+   - Consultada vía OPENQUERY(MySQL_HM, ...) desde SQL Server
+
+API E INTEGRACIONES:
+====================
+- Linked Server desde SQL Server a MySQL (OPENQUERY para stock en tiempo real)
+- PHPMailer con SMTP autenticado a servidor smtp 149.50.128.101:587
+- Integración implícita con el Portal corporativo (http://web/portal/)
+- Links a sitios web institucionales (hmoore.com.ar, williamosler.com.ar)
+- No expone APIs REST ni SOAP (sistema 100% interno)
+
+AUTENTICACIÓN:
+==============
+- Login por formulario con usuario y contraseña
+- Almacenamiento en texto plano (sin hash, comparación directa)
+- Sesiones PHP nativas con session_start()
+- Logout con session_destroy()
+- Sin 2FA, sin OAuth, sin JWT
+- Sin protección CSRF ni rate limiting
+
+SEGURIDAD (Observaciones):
+==========================
+⚠️ Vulnerabilidades detectadas (propias de un sistema legacy interno):
+  - SQL Injection directa en casi todas las consultas (variables interpoladas)
+  - Contraseñas en texto plano (SELECT Pass FROM Usuarios WHERE...)
+  - Credenciales de base de datos en texto plano en archivos PHP
+  - Sin prepared statements ni consultas parametrizadas
+  - Sin validación CSRF en formularios
+  - Sin escape de output (XSS potencial)
+  - Sin hashing de contraseñas
+  - Sesiones sin timeout forzoso
+  - Exposición de IP interna y estructura de tablas en comentarios
+
+✅ Aspectos positivos:
+  - Permisos granulares por aplicación/opción por usuario
+  - Trazabilidad completa de operaciones con IP, usuario y timestamp
+  - Validación de permisos en cada página sensible
+  - Control de stock en tiempo real antes de autorizar
+  - Transacción begin/commit en descuento de stock (aunque comentado)
+
+WORKFLOW DE SOLICITUD (Ciclo de Vida):
+=======================================
+                          ┌─────────────┐
+                          │  SOLICITAR   │
+                          │  (Usuario)   │
+                          └──────┬──────┘
+                                 │
+                                 ▼
+                          ┌─────────────┐
+                          │  AUTORIZAR   │◄── Email de aviso
+                          │  (Jefe/Sup.) │     a autorizadores
+                          └──────┬──────┘
+                                 │
+                          Descuenta stock
+                          por lote (FIFO)
+                          Registra trazabilidad
+                                 │
+                                 ▼
+                          ┌─────────────┐
+                          │  PREPARAR    │◄── Email recordatorio
+                          │  (Depósito)  │     a preparadores
+                          └──────┬──────┘
+                                 │
+                                 ▼
+                          ┌─────────────┐
+                          │  RECIBIR     │◄── Email recordatorio
+                          │  (Solicit.)  │     a solicitante
+                          └──────┬──────┘
+                                 │
+                                 ▼
+                          ┌─────────────┐
+                          │  FINALIZADO  │
+                          └─────────────┘
+
+CADA ESTADO REGISTRA:
+  - Usuario que ejecutó la acción
+  - Fecha y hora (GETDATE())
+  - Dirección IP del cliente
+  - Consulta SQL ejecutada (en TrazaOperacionSistemas)
+
+ROLES Y PERMISOS (inferidos de UsuariosAplicaciones):
+=====================================================
+Rol                  | Opciones en Sistema
+-------------------- | ------------------------------------------------------
+Solicitante          | Solicitar Articulo Embalaje
+Autorizador          | Autorizar Solicitud Descartable
+Preparador           | Preparar Articulo Descartable
+Receptor             | (el mismo solicitante, validado por IDUsuario)
+Administrador        | Modificar Articulo, Listar Articulos, todos los reportes
+Visión general       | Seguimiento Descartable
+
+No hay jerarquía formal de roles; el permiso se da por combinación
+usuario + aplicación + opción en tabla UsuariosAplicaciones.
+
+REPORTES Y DASHBOARDS:
+======================
+- Dashboard "Hacer Seguimientos": tabla unificada con semáforo visual que
+  muestra el estado de cada solicitud con indicadores coloridos
+- Planilla Técnica de Stock: cruza datos de SQL Server y MySQL con cálculos
+  de reposición automática basados en consumo histórico
+- Reporte de Egreso por rango de fechas, usuario y tipo de artículo
+- Detalle de remito por solicitud
+- Impresión nativa y PDF de reportes
+
+DIFERENCIADORES DEL PROYECTO:
+=============================
+1. Integración bidireccional SQL Server ↔ MySQL vía Linked Server
+   → Stock en tiempo real desde sistema legacy drugstore
+2. Descuento inteligente de inventario por lote (FIFO)
+   → Control de trazabilidad por lote y vencimiento
+3. Workflow completo de 4 etapas con notificaciones por email
+   → Automatización de principio a fin
+4. Recordatorios automáticos vía email
+   → Reduce pedidos perdidos u olvidados
+5. Sin frameworks ni librerías externas pesadas
+   → Código 100% controlado, sin dependencias complejas
+6. Sistema 100% funcional en producción real
+   → No es un proyecto académico, es una herramienta crítica de negocio
+7. Trazabilidad total con auditoría de operaciones
+   → Compliance y accountability
+
+DESAFÍOS TÉCNICOS Y SOLUCIONES:
+================================
+Desafío 1: Stock en dos bases de datos distintas (SQL Server + MySQL)
+  Solución: Linked Server con OPENQUERY para consultar MySQL desde SQL Server
+  en tiempo real, evitando duplicación de datos.
+
+Desafío 2: Descontar stock por lote respetando FIFO
+  Solución: Algoritmo que itera sobre cada lote (batch) del producto,
+  descuenta la cantidad aprobada del lote más antiguo primero, y continúa
+  con el siguiente si es necesario. Registra cada operación en
+  TrazabilidadProductos con lote y vencimiento.
+
+Desafío 3: Notificaciones en cada etapa del workflow
+  Solución: PHPMailer con SMTP autenticado, destinatarios dinámicos según
+  la etapa (autorizadores, preparadores, solicitante) con consultas a tablas
+  de grupos y usuarios.
+
+Desafío 4: Límite de solicitudes pendientes por usuario
+  Solución: Validación previa a mostrar el formulario que consulta solicitudes
+  no recibidas. Lógica especial para el usuario "esantos" (límite=3).
+
+IMPACTO PROFESIONAL:
+=====================
+Este proyecto demuestra capacidad para:
+- Diseñar e implementar sistemas transaccionales complejos desde cero
+- Integrar bases de datos heterogéneas (SQL Server + MySQL)
+- Automatizar flujos de trabajo multi-actor con notificaciones
+- Trabajar con tecnologías corporativas (Microsoft SQL Server, IIS)
+- Desarrollar software crítico para operaciones diarias de una empresa
+- Implementar trazabilidad y auditoría requeridas en entornos regulados
+- Mantener sistemas legacy en producción con recursos limitados
+- Trabajar con stack LAMP + Windows en entorno mixto
+
+HABILIDADES DEMOSTRADAS:
+=========================
+Técnicas:
+- PHP nativo (orientado a procedimientos y objetos)
+- Microsoft SQL Server (consultas complejas, linked server, OPENQUERY)
+- MySQL / MariaDB
+- Bootstrap 5 (grid system, componentes, responsive design)
+- jQuery, AJAX, DataTables
+- PHPMailer (SMTP, HTML emails)
+- Sesiones PHP y autenticación
+- Control de stock, trazabilidad, auditoría
+- Diseño de bases de datos relacionales
+- Integración de sistemas heterogéneos
+
+Blandas:
+- Análisis de requisitos de negocio
+- Diseño de UX/UI para usuarios no técnicos
+- Documentación de código
+- Resolución de problemas de integración
+- Trabajo en entorno corporativo
+
+NIVEL TÉCNICO Y SENIORITY:
+===========================
+Complejidad: Media-Alta
+  - Integración de dos motores de bases de datos distintos
+  - Lógica de negocio multi-etapa con validaciones cruzadas
+  - Algoritmo de descuento de stock por lote (FIFO)
+  - Sistema de permisos granular
+
+Seniority del desarrollador: SEMI-SENIOR / SSR+
+  - Código funcional y en producción, pero con carencias de seguridad
+  - Arquitectura sin framework, pero con organización lógica de archivos
+  - Buen manejo de SQL (OPENQUERY, JOINs, subqueries, funciones de ventana)
+  - Patrón inconsistente entre páginas (mezcla PHP+HTML)
+  - Sin uso de namespaces, autoload, PSR, composer
+  - Estilo "PHP clásico" de los 2000s, pero robusto y funcional
+
+Puntaje estimado de seniority: 6/10 (funcional en producción, pero con
+deuda técnica en seguridad, estructura y buenas prácticas modernas)
+
+KEYWORDS ATS 2026:
+===================
+PHP, SQL Server, MySQL, Bootstrap, jQuery, DataTables, PHPMailer, SMTP,
+Linked Server, OPENQUERY, HTML5, CSS3, JavaScript, AJAX, IIS, XAMPP,
+Sistema Web, Transaccional, Workflow, Automatización, Trazabilidad,
+Auditoría, Control de Stock, Inventario, Depósito, Logística,
+Descartables, Soluciones, Salud, Farmacia, Droguería, ERP, CRM,
+Desarrollo Web, Full Stack, Backend, Frontend, Base de Datos,
+Integración, Legacy, On-premise, Intranet, Corporativo
+
+BULLETS PARA CV:
+=================
+• Desarrollé un sistema web en PHP + SQL Server + MySQL para la gestión
+  integral de solicitudes de insumos descartables, reemplazando procesos
+  manuales por un workflow digital de 4 etapas con trazabilidad total.
+
+• Implementé integración bidireccional entre SQL Server y MySQL vía
+  Linked Server (OPENQUERY) para consultar stock en tiempo real desde
+  un sistema legacy, sin duplicación de datos.
+
+• Diseñé un algoritmo de descuento de inventario por lote (FIFO) que
+  actualiza stock en MySQL y registra trazabilidad con lote, vencimiento
+  y remito en SQL Server.
+
+• Programé un sistema de notificaciones con PHPMailer que envía emails
+  transaccionales (creación, autorización, recordatorios) a múltiples
+  actores según la etapa del workflow.
+
+• Construí dashboards de seguimiento con Bootstrap 5 y DataTables que
+  ofrecen visibilidad en tiempo real del estado de cada solicitud con
+  indicadores visuales tipo semáforo.
+
+• Desarrollé reportes de egreso y planilla de stock que cruzan datos
+  de dos bases de datos con cálculos de reposición automática.
+
+• Implementé un sistema de permisos granular por usuario-aplicación-
+  opción con validación en cada página sensible.
+
+• Registré trazabilidad completa de operaciones con usuario, timestamp,
+  IP y consulta SQL ejecutada para cumplimiento de auditoría.
+
+TEXTO PARA LINKEDIN:
+=====================
+🚀 Sistema de Gestión de Depósito Descartable | PHP + SQL Server + MySQL
+
+Desarrollé una plataforma web corporativa que digitaliza el ciclo completo
+de solicitud de insumos descartables y soluciones hospitalarias en una
+droguería oncológica de Buenos Aires.
+
+🔹 Flujo: Solicitar → Autorizar → Preparar → Recibir
+🔹 Stock en tiempo real vía Linked Server SQL Server ↔ MySQL
+🔹 Notificaciones automáticas por email en cada etapa
+🔹 Dashboard de seguimiento con semáforo visual
+🔹 Trazabilidad por lote, vencimiento y remito
+🔹 Reportes de egreso con filtros dinámicos
+
+Tecnologías: PHP, Microsoft SQL Server, MySQL, Bootstrap 5, jQuery,
+DataTables, PHPMailer, Linked Server, OPENQUERY, IIS
+
+Este sistema reemplazó procesos manuales y es utilizado diariamente por
+el personal para gestionar sus pedidos de insumos críticos.
+
+#PHP #SQLServer #MySQL #DesarrolloWeb #Bootstrap #Logística #Trazabilidad
+#Salud #SistemaTransaccional #FullStack #Workflow
+
+RESUMEN CASE STUDY:
+====================
+Título: Digitalización del Workflow de Insumos Descartables
+
+Cliente: Oncomed Reno SA / Henry Moore — Droguería Oncológica, CABA
+
+Problema: La gestión de insumos descartables y soluciones se realizaba
+con planillas, llamadas y correos sueltos. No había trazabilidad, el
+stock se consultaba en sistemas separados, y los pedidos se perdían.
+
+Solución: Sistema web transaccional con workflow de 4 etapas, integración
+SQL Server ↔ MySQL en tiempo real, notificaciones por email en cada paso,
+dashboard de seguimiento con indicadores visuales, y trazabilidad completa
+con auditoría de operaciones.
+
+Tecnologías: PHP, Bootstrap 5, jQuery, DataTables, SQL Server,
+MySQL (Linked Server), PHPMailer, IIS
+
+Resultados:
+• Trazabilidad total de cada insumo desde solicitud hasta recepción
+• Stock consultado en tiempo real sin duplicación de datos
+• Reducción de pedidos perdidos gracias a recordatorios automáticos
+• Visibilidad completa del estado de cada solicitud para todos los actores
+• Historial auditable con registro de IP, usuario y operación
+• Herramienta crítica en producción, usada diariamente
+
+Mi rol: Desarrollo full stack completo — análisis, diseño de BD,
+frontend, backend, integración, testing y puesta en producción.
+
+================================================================================
+Documento generado el: 2026-05-26
+Análisis basado en código fuente completo del proyecto.
+Nivel de confianza: 95% (todo inferido del código; no se entrevistó al equipo)
+================================================================================

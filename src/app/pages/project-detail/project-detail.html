@@ -1,0 +1,232 @@
+@if (loading()) {
+  <div class="detail__loading">
+    <div class="detail__spinner"></div>
+    <p>Cargando proyecto...</p>
+  </div>
+} @else if (error() || !project()) {
+  <div class="detail__error">
+    <div class="detail__error-icon">
+      <i class="uil uil-frown"></i>
+    </div>
+    <h2>Proyecto no encontrado</h2>
+    <p>El proyecto que buscas no existe o ha sido eliminado.</p>
+    <a routerLink="/" class="detail__error-btn">
+      <i class="uil uil-arrow-left"></i>
+      Volver al portafolio
+    </a>
+  </div>
+} @else {
+  <div class="detail">
+    <div class="detail__container">
+      <!-- Breadcrumbs -->
+      <nav class="detail__breadcrumbs" aria-label="Breadcrumb">
+        <a routerLink="/">Inicio</a>
+        <span class="detail__breadcrumb-sep">›</span>
+        <span aria-current="page">{{ project()!.title }}</span>
+      </nav>
+
+      <!-- Back navigation -->
+      <a routerLink="/" class="detail__back-link">
+        <i class="uil uil-arrow-left"></i>
+        <span>Volver al portafolio</span>
+      </a>
+
+      <!-- Hero Section -->
+      <div class="detail__hero">
+        <div class="detail__hero-meta">
+          <span class="detail__hero-category" [style.backgroundColor]="getCategoryColor(project()!.category)">
+            {{ project()!.categoryName }}
+          </span>
+          <span class="detail__hero-date">
+            <i class="uil uil-calendar-alt"></i>
+            {{ project()!.date }}
+          </span>
+        </div>
+        <h1 class="detail__hero-title">
+          {{ project()!.title }}
+        </h1>
+        <p class="detail__hero-description">{{ project()!.description }}</p>
+      </div>
+
+      <!-- Image Gallery -->
+      @if (project()!.images && project()!.images.length > 0) {
+        <div class="detail__gallery">
+          <div class="detail__gallery-main">
+            <img [src]="selectedImage()" [alt]="project()!.title + ' - ' + project()!.subtitle" class="detail__gallery-img">
+          </div>
+          @if (project()!.images.length > 1) {
+            <div class="detail__gallery-thumbs">
+              @for (img of project()!.images; track img) {
+                <button
+                  class="detail__gallery-thumb"
+                  [class.active]="selectedImage() === img"
+                  (click)="selectImage(img)">
+                  <img [src]="img" [alt]="'Captura ' + ($index + 1) + ' del proyecto ' + project()!.title">
+                </button>
+              }
+            </div>
+          }
+        </div>
+      }
+
+      <!-- Content Tabs -->
+      <div class="detail__tabs">
+        <button
+          class="detail__tab"
+          [class.active]="activeTab() === 'description'"
+          (click)="setTab('description')">
+          <i class="uil uil-info-circle"></i>
+          Descripción
+        </button>
+        <button
+          class="detail__tab"
+          [class.active]="activeTab() === 'features'"
+          (click)="setTab('features')">
+          <i class="uil uil-list-ul"></i>
+          Características
+        </button>
+        @if (project()!.challenges && project()!.challenges!.length > 0) {
+          <button
+            class="detail__tab"
+            [class.active]="activeTab() === 'challenges'"
+            (click)="setTab('challenges')">
+            <i class="uil uil-flask"></i>
+            Desafíos
+          </button>
+        }
+      </div>
+
+      <!-- Tab Content -->
+      <div class="detail__tab-content">
+        @if (activeTab() === 'description') {
+          <div class="detail__description">
+            <p>{{ project()!.fullDescription || project()!.description }}</p>
+          </div>
+        }
+
+        @if (activeTab() === 'features' && project()!.features) {
+          <div class="detail__features-grid">
+            @for (feature of project()!.features; track feature.title) {
+              <div class="detail__feature-card">
+                <div class="detail__feature-icon">
+                  <i [class]="feature.icon"></i>
+                </div>
+                <h3 class="detail__feature-title">{{ feature.title }}</h3>
+                <p class="detail__feature-desc">{{ feature.description }}</p>
+              </div>
+            }
+          </div>
+        }
+
+        @if (activeTab() === 'challenges' && project()!.challenges) {
+          <div class="detail__challenges">
+            @for (challenge of project()!.challenges; track challenge.problem; let i = $index) {
+              <div class="detail__challenge-card">
+                <div class="detail__challenge-number">{{ i + 1 }}</div>
+                <div class="detail__challenge-content">
+                  <div class="detail__challenge-problem">
+                    <h4><i class="uil uil-exclamation-triangle"></i> Desafío</h4>
+                    <p>{{ challenge.problem }}</p>
+                  </div>
+                  <div class="detail__challenge-solution">
+                    <h4><i class="uil uil-check-circle"></i> Solución</h4>
+                    <p>{{ challenge.solution }}</p>
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        }
+      </div>
+
+      <!-- Technologies -->
+      <div class="detail__tech">
+        <h2 class="detail__section-title">
+          Tecnologías <span class="detail__section-title-accent">Utilizadas</span>
+        </h2>
+        <div class="detail__tech-list">
+          @for (tech of project()!.technologies; track tech) {
+            <span class="detail__tech-tag">{{ tech }}</span>
+          }
+        </div>
+      </div>
+
+      <!-- Differentiators -->
+      @if (project()!.differentiators && project()!.differentiators.length > 0) {
+        <div class="detail__differentiators">
+          <h2 class="detail__section-title">
+            Valor <span class="detail__section-title-accent">Diferencial</span>
+          </h2>
+          <div class="detail__diff-list">
+            @for (item of project()!.differentiators; track item) {
+              <div class="detail__diff-item">
+                <i class="uil uil-award"></i>
+                <span>{{ item }}</span>
+              </div>
+            }
+          </div>
+        </div>
+      }
+
+      <!-- Impact -->
+      @if (project()!.impact) {
+        <div class="detail__impact">
+          <h2 class="detail__section-title">
+            Impacto <span class="detail__section-title-accent">Profesional</span>
+          </h2>
+          <div class="detail__impact-card">
+            <i class="uil uil-target"></i>
+            <p>{{ project()!.impact }}</p>
+          </div>
+        </div>
+      }
+
+      <!-- Related Projects -->
+      @if (relatedProjects().length > 0) {
+        <div class="detail__related">
+          <h2 class="detail__section-title">
+            Proyectos <span class="detail__section-title-accent">Relacionados</span>
+          </h2>
+          <div class="detail__related-grid">
+            @for (rp of relatedProjects(); track rp.id) {
+              <a [routerLink]="'/proyecto/' + rp.slug" class="detail__related-card">
+                <img [src]="rp.image" [alt]="rp.title + ' - ' + rp.categoryName" loading="lazy">
+                <div class="detail__related-info">
+                  <span class="detail__related-category" [style.backgroundColor]="getCategoryColor(rp.category)">{{ rp.categoryName }}</span>
+                  <h3>{{ rp.title }}</h3>
+                </div>
+              </a>
+            }
+          </div>
+        </div>
+      }
+
+      <!-- CTA Buttons -->
+      <div class="detail__actions">
+        @if (project()!.link) {
+          <a [href]="project()!.link" target="_blank" rel="noopener" class="detail__btn detail__btn--demo">
+            <i class="uil uil-external-link-alt"></i>
+            Ver demo
+          </a>
+        }
+        @if (project()!.github || project()!.github) {
+          <a [href]="project()!.github || project()!.github" target="_blank" rel="noopener" class="detail__btn detail__btn--github">
+            <i class="uil uil-github-alt"></i>
+            Código fuente
+          </a>
+        }
+        <a routerLink="/" class="detail__btn detail__btn--back">
+          <i class="uil uil-arrow-left"></i>
+          Volver al portafolio
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll to top -->
+  @if (showScrollTop()) {
+    <div class="detail__scrollup" (click)="scrollToTop()">
+      <i class="uil uil-arrow-up"></i>
+    </div>
+  }
+}

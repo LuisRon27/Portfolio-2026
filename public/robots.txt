@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Allow: /proyecto/
+
+Sitemap: https://LuisRon.github.io/sitemap.xml

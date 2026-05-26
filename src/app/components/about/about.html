@@ -1,0 +1,67 @@
+<section class="about section" id="about" scrollReveal>
+  <div class="about__container">
+    
+    <!-- Header -->
+    <div class="about__header" scrollReveal scrollRevealDelay="0.05">
+      <span class="about__eyebrow">Conóceme</span>
+      <h2 class="about__title">
+        Sobre <span class="about__title-gradient">Mí</span>
+      </h2>
+      <div class="about__underline"></div>
+      <p class="about__description">
+        Más sobre mi experiencia, liderazgo técnico y pasión por crear soluciones digitales modernas
+      </p>
+    </div>
+
+    <div class="about__content">
+      <!-- Imagen -->
+      <div class="about__image" scrollReveal="left" scrollRevealDelay="0.15">
+        <div class="about__image-wrapper">
+          <img loading="lazy" src="assets/img/avatar_5-removebg-preview.png" alt="Luis Ron - Full-Stack Developer & Technical Lead especializado en Angular y ASP.NET Core" class="about__img">
+          
+        </div>
+      </div>
+
+      <!-- Info -->
+      <div class="about__info" scrollReveal="right" scrollRevealDelay="0.25">
+        <p class="about__text">
+          Soy un <strong>Full-Stack Developer & Technical Lead de Argentina</strong>,
+          especializado en el desarrollo de aplicaciones web escalables,
+          APIs REST y sistemas de gestión utilizando tecnologías como
+          <strong>Angular, ASP.NET Core y SQL Server</strong>.
+
+          Tengo experiencia liderando equipos de desarrollo, optimizando procesos
+          y construyendo soluciones modernas enfocadas en rendimiento,
+          mantenibilidad y experiencia de usuario.
+
+          Además, me interesa la innovación mediante herramientas de
+          <strong>Inteligencia Artificial, automatización y desarrollo asistido por IA</strong>.
+        </p>
+        
+        <!-- Stats -->
+        <div class="about__stats">
+          @for (stat of stats; track $index; let i = $index) {
+            <div class="about__stat-card" scrollReveal [scrollRevealDelay]="0.35 + i * 0.1">
+              <div class="about__stat-icon">
+                <i [class]="stat.icon"></i>
+              </div>
+              <div class="about__stat-info">
+                <span class="about__stat-number">0+</span>
+                <span class="about__stat-label">{{ stat.label }}</span>
+              </div>
+            </div>
+          }
+        </div>
+
+        <!-- Botón CV -->
+        <div class="about__button" scrollReveal scrollRevealDelay="0.65">
+          <button class="about__btn" (click)="downloadCV()">
+            <i class="uil uil-file-download-alt"></i>
+            <span>Descargar CV</span>
+            <i class="uil uil-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

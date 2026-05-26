@@ -1,0 +1,74 @@
+Automatización e Inteligencia Artificial
+ChatBot Automatizado para WhatsApp
+Zapatería Retail
+2025
+WhatsApp, n8n, IA Gemini, Automatización
+El Desafío
+La zapatería enfrentaba una alta demanda de consultas por WhatsApp que su equipo no podía manejar eficientemente, resultando en:
+
+Tiempos de respuesta lentos (hasta 24 horas en temporada alta)
+Información inconsistente entre diferentes vendedores
+Incapacidad para escalar el servicio al cliente
+Pérdida de ventas por falta de respuestas inmediatas
+Dificultad para gestionar consultas fuera del horario comercial
+Nuestra Solución
+Implementamos un ChatBot inteligente para WhatsApp que combina la potencia de n8n para automatización con los modelos de IA Gemini de Google:
+
+1
+Integración WhatsApp
+Conexión directa con la API de WhatsApp Business para recepción y envío de mensajes
+
+2
+Motor de IA Gemini
+Interpretación avanzada del lenguaje natural para entender consultas complejas
+
+3
+Base de Datos en Tiempo Real
+Conexión con sistemas de inventario y CRM para respuestas precisas
+
+4
+Flujos Conversacionales
+Diseño de diálogos naturales para guiar al cliente según su intención
+
+Funcionalidades Clave
+Procesamiento Inteligente
+Reconocimiento de intenciones (consultas, compras, reclamos)
+Extracción de entidades (tallas, colores, modelos, referencias)
+Clasificación automática de consultas por urgencia y complejidad
+Detección de lenguaje informal y regionalismos
+Capacidades Operativas
+Consulta de inventario: Verificación en tiempo real de disponibilidad
+Seguimiento de pedidos: Estado de envíos y tiempos de entrega
+Recomendaciones: Sugiere productos basados en historial y preferencias
+Reservas: Bloqueo temporal de productos con enlace a pago
+Soporte 24/7: Respuestas inmediatas fuera de horario comercial
+Tecnologías Utilizadas
+WhatsApp Business API
+n8n
+Gemini AI
+MySQL
+Google Cloud
+Node.js
+JavaScript
+Flujo de Trabajo Detallado
+Diagrama de flujo completo en n8n
+Flujo completo en n8n - Automatización desde recepción hasta respuesta
+
+Ejemplo de interacción con el bot
+Interacción real - El cliente pregunta por disponibilidad y recibe respuesta automática
+
+Resultados Obtenidos
+90%
+Consultas resueltas automáticamente
+24/7
+Disponibilidad de atención
+35%
+Aumento en conversión a venta
+4.8/5
+Satisfacción del cliente
+La implementación del ChatBot transformó la experiencia del cliente, permitiendo respuestas inmediatas y precisas en cualquier momento del día. El personal pudo enfocarse en consultas complejas y ventas, mientras el sistema manejaba el 90% de las preguntas recurrentes. Además, la integración con el inventario evitó ventas de productos no disponibles.
+
+ Nota: Por políticas de WhatsApp, no podemos compartir el número real del bot, pero podemos demostrar el sistema en un entorno de prueba.
+¿Necesitas automatizar la atención al cliente de tu negocio?
+En Luma IA Agency desarrollamos soluciones de ChatBot personalizadas para WhatsApp, Instagram y otros canales, adaptadas a las necesidades específicas de tu empresa.
+

@@ -1,0 +1,52 @@
+<!--==================== SKILLS ====================-->
+<section class="skills section" id="skills" scrollReveal>
+  <div class="skills__container">
+    <!-- Header -->
+    <div class="skills__header" scrollReveal scrollRevealDelay="0.05">
+      <span class="skills__eyebrow">Experiencia Técnica</span>
+      <h2 class="skills__title">
+        Stack
+        <span class="skills__title-accent">Tecnológico</span>
+      </h2>
+      <div class="skills__underline"></div>
+      <p class="skills__description">
+        Más de <strong>3 años</strong> de experiencia construyendo soluciones escalables
+        con tecnologías modernas y buenas prácticas de desarrollo.
+      </p>
+    </div>
+
+    <!-- Grid de categorías - todas visibles -->
+    <div class="skills__grid">
+      @for (category of skillCategories; track category.id; let i = $index) {
+        <div class="skills__category" scrollReveal [scrollRevealDelay]="0.15 + i * 0.1" [style.border-top-color]="category.color">
+          <!-- Cabecera de categoría -->
+          <div class="skills__category-header">
+            <div class="skills__category-icon" [style.backgroundColor]="category.color">
+              <i [class]="category.icon"></i>
+            </div>
+            <div class="skills__category-info">
+              <h3 class="skills__category-title">{{ category.name }}</h3>
+              <span class="skills__category-count">{{ category.skills.length }} tecnologías</span>
+            </div>
+          </div>
+
+          <!-- Lista de habilidades - siempre visible -->
+          <div class="skills__list">
+            @for (skill of category.skills; track skill.name) {
+              <div class="skills__chip">
+                @if (skill.icon) {
+                  <img [src]="skill.icon" [alt]="skill.name" class="skills__chip-icon" loading="lazy">
+                } @else {
+                  <i class="uil uil-code-circle skills__chip-icon-placeholder"></i>
+                }
+                <span class="skills__chip-name">{{ skill.name }}</span>
+              </div>
+            }
+          </div>
+        </div>
+      }
+    </div>
+
+
+  </div>
+</section>

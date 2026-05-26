@@ -1,0 +1,105 @@
+<section class="qualification section" id="qualification" scrollReveal>
+  <div class="qualification__container">
+
+    <!-- Header -->
+    <div class="qualification__header" scrollReveal scrollRevealDelay="0.05">
+      <span class="qualification__badge">Mi Trayectoria</span>
+      <h2 class="qualification__title">
+        Formación y
+        <span class="qualification__title-gradient">Experiencia</span>
+      </h2>
+      <div class="qualification__divider"></div>
+      <p class="qualification__description">
+        Mi recorrido académico y profesional en el mundo del
+        <strong>desarrollo de software</strong>
+      </p>
+    </div>
+
+    <!-- Tabs -->
+    <div class="qualification__tabs" scrollReveal scrollRevealDelay="0.15">
+      <button class="qualification__tab" [class.active]="activeTab === 'education'" (click)="setActiveTab('education')">
+        <i class="uil uil-graduation-cap"></i>
+        <span>Formación Académica</span>
+      </button>
+      <button class="qualification__tab" [class.active]="activeTab === 'experience'"
+        (click)="setActiveTab('experience')">
+        <i class="uil uil-briefcase-alt"></i>
+        <span>Experiencia Laboral</span>
+      </button>
+    </div>
+
+    <!-- Educación -->
+    @if (activeTab === 'education') {
+    <div class="qualification__content">
+      @for (item of educationList; track $index; let i = $index) {
+      <div class="qualification__card" scrollReveal [scrollRevealDelay]="0.25 + i * 0.1">
+        <div class="qualification__card-icon">
+          @if (item.logo) {
+              <img [src]="item.logo" [alt]="item.institution" class="qualification__logo">
+            } @else {
+              <i class="uil uil-building"></i>
+            }
+        </div>
+        <div class="qualification__card-line"></div>
+        <div class="qualification__card-info">
+          <div class="qualification__card-header">
+            <h3 class="qualification__card-title">{{ item.title }}</h3>
+            <span class="qualification__card-date">
+              <i class="uil uil-calendar-alt"></i> {{ item.date }}
+            </span>
+          </div>
+          <div class="qualification__card-institution">
+            @if (item.link) {
+              <a [href]="item.link" target="_blank" rel="noopener noreferrer" class="qualification__card-link">
+                <span>{{ item.institution }}</span>
+                <i class="uil uil-external-link-alt qualification__external"></i>
+              </a>
+            } @else {
+              <span class="qualification__card-text">{{ item.institution }}</span>
+            }
+          </div>
+          <p class="qualification__card-description">{{ item.description }}</p>
+        </div>
+      </div>
+      }
+    </div>
+    }
+
+    <!-- Experiencia -->
+    @if (activeTab === 'experience') {
+    <div class="qualification__content">
+      @for (item of experienceList; track $index; let i = $index) {
+      <div class="qualification__card" scrollReveal [scrollRevealDelay]="0.25 + i * 0.1">
+        <div class="qualification__card-icon">
+          @if (item.logo) {
+              <img [src]="item.logo" [alt]="item.company" class="qualification__logo">
+            } @else {
+              <i class="uil uil-building"></i>
+            }
+        </div>
+        <div class="qualification__card-line"></div>
+        <div class="qualification__card-info">
+          <div class="qualification__card-header">
+            <h3 class="qualification__card-title">{{ item.title }}</h3>
+            <span class="qualification__card-date">
+              <i class="uil uil-calendar-alt"></i> {{ item.date }}
+            </span>
+          </div>
+          <div class="qualification__card-company">
+            @if (item.link) {
+              <a [href]="item.link" target="_blank" rel="noopener noreferrer" class="qualification__card-link">
+                <span>{{ item.company }}</span>
+                <i class="uil uil-external-link-alt qualification__external"></i>
+              </a>
+            } @else {
+              <span class="qualification__card-text">{{ item.company }}</span>
+            }
+          </div>
+          <p class="qualification__card-description">{{ item.description }}</p>
+        </div>
+      </div>
+      }
+    </div>
+    }
+  </div>
+</section>

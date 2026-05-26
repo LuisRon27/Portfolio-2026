@@ -1,0 +1,149 @@
+/* ==================== MEJORAS SUTILES ==================== */
+
+/* 1. Efecto hover en tarjetas de redes sociales */
+.home_social-icon {
+  transition: all 0.3s cubic-bezier(0.2, 0, 0, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(108, 92, 231, 0.08);
+}
+
+.home_social-icon:hover {
+  background: var(--first-color);
+  transform: translateY(-3px) scale(1);
+  box-shadow: 0 6px 16px rgba(108, 92, 231, 0.25);
+}
+
+.home_social-icon:hover i {
+  color: white;
+}
+
+/* 2. Sombra suave en el avatar */
+.home_blob {
+  filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.08));
+  transition: filter 0.3s ease;
+}
+
+.home_blob:hover {
+  filter: drop-shadow(0 12px 28px rgba(108, 92, 231, 0.15));
+}
+
+/* 3. Subtítulo con color destacado */
+.home_subtitle {
+  color: var(--first-color);
+  font-weight: 600;
+  letter-spacing: -0.3px;
+}
+
+/* 4. Descripción con mejor legibilidad */
+.home_description {
+  line-height: 1.7;
+  color: var(--text-color-light);
+  max-width: 90%;
+}
+
+/* 5. Efecto hover en el botón */
+.button {
+  transition: all 0.3s cubic-bezier(0.2, 0, 0, 1);
+  border-radius: 2rem;
+  padding: 0.85rem 1.8rem;
+  font-weight: 600;
+}
+
+.button:hover {
+  transform: translateY(-2px);
+  gap: 0.6rem;
+  box-shadow: 0 8px 20px rgba(108, 92, 231, 0.3);
+}
+
+/* 6. Scroll indicator más elegante */
+.home_scroll-button {
+  transition: all 0.3s ease;
+  opacity: 0.7;
+}
+
+.home_scroll-button:hover {
+  opacity: 1;
+  transform: translateY(5px);
+}
+
+.home_scroll-name {
+  letter-spacing: 1px;
+}
+
+/* 7. Slider de tecnologías - efecto sutil */
+.stack img {
+  transition: all 0.3s ease;
+}
+
+.stack img:hover {
+  transform: translateY(-4px) scale(1.05);
+}
+
+/* 8. Animación de entrada suave para las secciones */
+.home_content > * {
+  animation: fadeInUp 0.6s ease forwards;
+  opacity: 0;
+}
+
+.home_social { animation-delay: 0.1s; }
+.home_img { animation-delay: 0.2s; }
+.home_data { animation-delay: 0.3s; }
+.stack-container { animation-delay: 0.4s; }
+.home_scroll { animation-delay: 0.5s; }
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 9. Dark theme para las mejoras */
+body.dark-theme .home_social-icon {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+body.dark-theme .home_social-icon:hover {
+  background: var(--first-color);
+}
+
+body.dark-theme .home_blob {
+  filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.2));
+}
+
+body.dark-theme .home_subtitle {
+  color: var(--first-color-lighter);
+}
+
+/* 10. Responsive - ajustes pequeños */
+@media screen and (max-width: 768px) {
+  .home_social-icon {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .home_description {
+    max-width: 100%;
+  }
+  
+  .button {
+    padding: 0.75rem 1.5rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .home_social-icon {
+    width: 32px;
+    height: 32px;
+    font-size: 1rem;
+  }
+}

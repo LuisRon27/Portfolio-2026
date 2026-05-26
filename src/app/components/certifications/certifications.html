@@ -1,0 +1,167 @@
+<!--==================== CERTIFICATION ====================-->
+<section class="certification section" id="certification" scrollReveal>
+  
+  <!-- Header con estilo consistente -->
+  <div class="certification__header-main" scrollReveal scrollRevealDelay="0.05">
+    <span class="certification__eyebrow">Cursos y Especializaciones</span>
+    <h2 class="certification__title">
+      Mis <span class="certification__title-gradient">Certificaciones</span>
+    </h2>
+    <div class="certification__underline"></div>
+    <p class="certification__description">
+      Más de <strong>45 certificaciones</strong> que respaldan mi formación continua<br>
+      en tecnologías modernas y buenas prácticas de desarrollo.
+    </p>
+  </div>
+
+  <!-- Barra de búsqueda y filtros -->
+  <div class="certification__header container">
+    <!-- Buscador -->
+    <div class="certification__search" scrollReveal scrollRevealDelay="0.15">
+      <i class="uil uil-search"></i>
+      <input 
+        type="text" 
+        placeholder="Buscar certificación..." 
+        (input)="onSearch($event)"
+        [value]="searchTerm()"
+        class="certification__search-input">
+      @if (searchTerm()) {
+        <i class="uil uil-times certification__search-clear" (click)="clearSearch()"></i>
+      }
+    </div>
+
+    <!-- Filtros rápidos -->
+    <div class="certification__filters" scrollReveal scrollRevealDelay="0.2">
+      @for (category of categories; track category.id) {
+        <button 
+          class="certification__filter-btn" 
+          [class.active]="activeFilter() === category.id"
+          (click)="setFilter(category.id)">
+          <i [class]="category.icon"></i>
+          <span>{{ category.name }}</span>
+          <span class="certification__filter-count">{{ getCategoryCount(category.id) }}</span>
+        </button>
+      }
+    </div>
+  </div>
+
+  <!-- Grid de certificaciones -->
+  <div class="certification__grid container">
+    <!-- Cabecera con resultados -->
+    <div class="certification__results" scrollReveal scrollRevealDelay="0.1">
+      <p>
+        <i class="uil uil-chart"></i>
+        Mostrando <strong>{{ paginatedCertifications().length }}</strong> de 
+        <strong>{{ filteredBySearch().length }}</strong> certificaciones
+      </p>
+      @if (activeFilter() !== 'all') {
+        <span class="certification__active-filter">
+          <i class="uil uil-filter"></i>
+          {{ categories.find(c => c.id === activeFilter())?.name }}
+          <i class="uil uil-times" (click)="setFilter('all')"></i>
+        </span>
+      }
+    </div>
+
+    <!-- Grid -->
+    <div class="certification__grid-wrapper">
+      @for (cert of paginatedCertifications(); track cert.id; let i = $index) {
+        <div class="certification__card" scrollReveal [scrollRevealDelay]="0.15 + (i % 9) * 0.05" (click)="openModal(cert)">
+          <div class="certification__card-image">
+            <img [src]="cert.image" [alt]="cert.title" loading="lazy">
+            <div class="certification__card-overlay">
+              <i class="uil uil-eye"></i>
+              <span>Ver detalles</span>
+            </div>
+          </div>
+          <div class="certification__card-info">
+            <div class="certification__card-category" [style.backgroundColor]="categories.find(c => c.id === cert.category)?.color">
+              {{ categories.find(c => c.id === cert.category)?.name }}
+            </div>
+            <h3 class="certification__card-title">{{ cert.title }}</h3>
+            <p class="certification__card-institution">
+              <i class="uil uil-building"></i> {{ cert.institution }}
+            </p>
+            <p class="certification__card-date">
+              <i class="uil uil-calendar-alt"></i> {{ cert.date }}
+            </p>
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Paginación -->
+    @if (totalPages() > 1) {
+      <div class="certification__pagination" scrollReveal scrollRevealDelay="0.3">
+        <button 
+          class="pagination__btn" 
+          [disabled]="currentPage() === 1"
+          (click)="goToPage(currentPage() - 1)">
+          <i class="uil uil-angle-left"></i>
+        </button>
+        
+        <div class="pagination__pages">
+          @for (page of [].constructor(totalPages()); let i = $index; track i) {
+            <button 
+              class="pagination__page" 
+              [class.active]="currentPage() === i + 1"
+              (click)="goToPage(i + 1)">
+              {{ i + 1 }}
+            </button>
+          }
+        </div>
+        
+        <button 
+          class="pagination__btn" 
+          [disabled]="currentPage() === totalPages()"
+          (click)="goToPage(currentPage() + 1)">
+          <i class="uil uil-angle-right"></i>
+        </button>
+      </div>
+    }
+
+    <!-- Estado vacío -->
+    @if (filteredBySearch().length === 0) {
+      <div class="certification__empty">
+        <i class="uil uil-frown"></i>
+        <h3>No se encontraron certificaciones</h3>
+        <p>Intenta con otros filtros o términos de búsqueda</p>
+        <button class="button button--flex" (click)="setFilter('all'); clearSearch()">
+          <i class="uil uil-redo"></i>
+          Limpiar filtros
+        </button>
+      </div>
+    }
+  </div>
+</section>
+
+<!-- Modal para ver certificado en grande -->
+@if (showModal() && selectedCert()) {
+  <div class="certification__modal" (click)="closeModal()">
+    <div class="certification__modal-content" (click)="$event.stopPropagation()">
+      <div class="certification__modal-header">
+        <h3>{{ selectedCert()?.title }}</h3>
+        <i class="uil uil-times certification__modal-close" (click)="closeModal()"></i>
+      </div>
+      <div class="certification__modal-body">
+        <div class="certification__modal-image">
+          <img [src]="selectedCert()?.image" [alt]="selectedCert()?.title">
+        </div>
+        <div class="certification__modal-info">
+          <div class="certification__modal-category" [style.backgroundColor]="categories.find(c => c.id === selectedCert()?.category)?.color">
+            {{ categories.find(c => c.id === selectedCert()?.category)?.name }}
+          </div>
+          <p class="certification__modal-description">{{ selectedCert()?.description }}</p>
+          <div class="certification__modal-details">
+            <p><i class="uil uil-building"></i> {{ selectedCert()?.institution }}</p>
+            <p><i class="uil uil-calendar-alt"></i> {{ selectedCert()?.date }}</p>
+          </div>
+          <a [href]="selectedCert()?.link" target="_blank" class="button button--flex">
+            <i class="uil uil-external-link-alt"></i>
+            Ver certificado original
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+}

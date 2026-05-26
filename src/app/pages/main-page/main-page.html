@@ -1,0 +1,101 @@
+<app-navbar></app-navbar>
+
+<main>
+  <app-home></app-home>
+  <app-about></app-about>
+  <app-qualification></app-qualification>
+  <app-skills></app-skills>
+  <app-certifications></app-certifications>
+  <app-services></app-services>
+  <app-portfolio></app-portfolio>
+  <!--==================== PROJECT IN MIND ====================-->
+<section class="cta section" id="cta" scrollReveal>
+  <div class="cta__container">
+    
+    <!-- Background decorative elements -->
+    <div class="cta__bg-decoration">
+      <div class="cta__bg-circle cta__bg-circle-1"></div>
+      <div class="cta__bg-circle cta__bg-circle-2"></div>
+      <div class="cta__bg-circle cta__bg-circle-3"></div>
+    </div>
+
+    <div class="cta__content">
+      <!-- Left side - Text content -->
+      <div class="cta__info">
+        <div class="cta__badge" scrollReveal scrollRevealDelay="0.1">
+          <i class="uil uil-rocket"></i>
+          <span>¡Oferta Especial!</span>
+        </div>
+        
+        <h2 class="cta__title" scrollReveal scrollRevealDelay="0.2">
+          ¿Tienes un proyecto de desarrollo Full-Stack en 
+          <span class="cta__title-gradient">mente?</span>
+        </h2>
+        
+        <p class="cta__description" scrollReveal scrollRevealDelay="0.3">
+          Transformemos tu idea en realidad. Por tiempo limitado, 
+          <strong>20% de descuento</strong> en tu primer proyecto.
+        </p>
+        
+        <div class="cta__features" scrollReveal scrollRevealDelay="0.4">
+          <div class="cta__feature">
+            <i class="uil uil-check-circle"></i>
+            <span>Asesoría personalizada</span>
+          </div>
+          <div class="cta__feature">
+            <i class="uil uil-check-circle"></i>
+            <span>Entregas ágiles</span>
+          </div>
+          <div class="cta__feature">
+            <i class="uil uil-check-circle"></i>
+            <span>Soporte post-lanzamiento</span>
+          </div>
+        </div>
+        
+        <button class="cta__button" scrollReveal scrollRevealDelay="0.5" (click)="scrollToContact()">
+          <span>Contáctame ahora</span>
+          <i class="uil uil-message"></i>
+        </button>
+        
+        <p class="cta__note" scrollReveal scrollRevealDelay="0.6">
+          *Oferta válida para nuevos clientes
+        </p>
+      </div>
+
+      <!-- Right side - Illustration -->
+      <div class="cta__illustration" scrollReveal="right" scrollRevealDelay="0.3">
+        <div class="cta__illustration-wrapper">
+          <img 
+            loading="lazy" 
+            src="assets/img/avatar3-removebg-preview.png" 
+            alt="Contratar desarrollador Full-Stack - Luis Ron Developer" 
+            class="cta__image">
+          
+          <!-- Floating elements -->
+          <div class="cta__floating cta__floating-1">
+            <i class="uil uil-message"></i>
+            <span>¡Hablemos!</span>
+          </div>
+          <div class="cta__floating cta__floating-2">
+            <i class="uil uil-rocket"></i>
+            <span>¡Empecemos!</span>
+          </div>
+          <div class="cta__floating cta__floating-3">
+            <i class="uil uil-idea"></i>
+            <span>¡Innovamos!</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</section>
+  <app-contact></app-contact>
+</main>
+
+<app-footer></app-footer>
+
+<div class="scrollup" [class.show-scroll]="showScrollTop()" (click)="scrollToTop()">
+  <i class="uil uil-arrow-up scrollup__icon"></i>
+</div>

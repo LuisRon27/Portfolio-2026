@@ -1,0 +1,57 @@
+<!--==================== SERVICES ====================-->
+<section class="service section" id="services" scrollReveal>
+  <div class="service__container">
+    
+    <!-- Header -->
+    <div class="service__header" scrollReveal scrollRevealDelay="0.05">
+      <span class="service__eyebrow">Lo que Ofrezco</span>
+      <h2 class="service__title">
+        Mis <span class="service__title-gradient">Servicios</span>
+      </h2>
+      <div class="service__underline"></div>
+      <p class="service__description">
+        Soluciones <strong>personalizadas</strong> para llevar tu proyecto al siguiente nivel<br>
+        con calidad, rendimiento y buenas prácticas.
+      </p>
+    </div>
+
+    <!-- Grid de servicios -->
+    <div class="service__grid">
+      @for (service of services; track service.id; let i = $index) {
+        <div class="service__card" scrollReveal [scrollRevealDelay]="0.15 + i * 0.1">
+          <div class="service__card-icon">
+            <i [class]="service.icon"></i>
+          </div>
+          <h3 class="service__card-title">{{ service.title }}</h3>
+          <p class="service__card-description">{{ service.shortDescription }}</p>
+          <div class="service__card-footer">
+            <button class="service__button">
+              Ver Más
+              <i class="uil uil-arrow-right"></i>
+            </button>
+          </div>
+
+          <!-- Modal -->
+          <div class="service__modal">
+            <div class="service__modal-content">
+              <div class="service__modal-header">
+                <h4 class="service__modal-title">{{ service.title }}</h4>
+                <i class="uil uil-times service__modal-close"></i>
+              </div>
+              <div class="service__modal-body">
+                <ul class="service__modal-list">
+                  @for (feature of service.features; track feature) {
+                    <li class="service__modal-item">
+                      <i class="uil uil-check-circle service__modal-icon"></i>
+                      <span>{{ feature }}</span>
+                    </li>
+                  }
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>

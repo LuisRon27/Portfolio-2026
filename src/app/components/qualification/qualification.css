@@ -1,0 +1,474 @@
+/* ==================== QUALIFICATION - DISEÑO MEJORADO ==================== */
+
+.qualification {
+  position: relative;
+  background: var(--body-color);
+  padding: 5rem 0;
+  overflow: hidden;
+}
+
+/* Contenedor principal */
+.qualification__container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* ==================== HEADER ==================== */
+.qualification__header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.qualification__badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--first-color);
+  background: rgba(108, 92, 231, 0.1);
+  padding: 0.4rem 1rem;
+  border-radius: 2rem;
+  margin-bottom: 1rem;
+}
+
+.qualification__title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--title-color);
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+.qualification__title-gradient {
+  background: linear-gradient(135deg, var(--first-color), #a855f7);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  position: relative;
+  display: inline-block;
+}
+
+.qualification__divider {
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--first-color), #a855f7);
+  margin: 0 auto 1.2rem;
+  border-radius: 3px;
+}
+
+.qualification__description {
+  font-size: 0.9rem;
+  color: var(--text-color-light);
+  line-height: 1.6;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.qualification__description strong {
+  color: var(--first-color);
+  font-weight: 600;
+}
+
+/* ==================== TABS ==================== */
+.qualification__tabs {
+  display: flex;
+  justify-content: center;
+  gap: 1.2rem;
+  margin-bottom: 2.5rem;
+}
+
+.qualification__tab {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.8rem 1.8rem;
+  background: var(--container-color);
+  border: none;
+  border-radius: 3rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-color);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.2, 0, 0, 1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  position: relative;
+  overflow: hidden;
+}
+
+.qualification__tab::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--first-color);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.qualification__tab:hover::before,
+.qualification__tab.active::before {
+  transform: scaleX(0.6);
+}
+
+.qualification__tab i {
+  font-size: 1.1rem;
+  color: var(--first-color);
+  transition: all 0.3s;
+}
+
+.qualification__tab:hover i,
+.qualification__tab.active i {
+  color: white;
+}
+
+.qualification__tab:hover {
+  background: var(--first-color);
+  color: white;
+  transform: translateY(-2px);
+}
+
+.qualification__tab.active {
+  background: var(--first-color);
+  color: white;
+  box-shadow: 0 6px 20px rgba(108, 92, 231, 0.3);
+}
+
+/* ==================== CARDS ==================== */
+.qualification__content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.qualification__card {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.2rem 1.5rem;
+  background: var(--container-color);
+  border-radius: 1.2rem;
+  transition: all 0.3s cubic-bezier(0.2, 0, 0, 1);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  position: relative;
+  opacity: 0;
+  animation: fadeInUp 0.5s ease forwards;
+  cursor: pointer;
+}
+
+.qualification__card:hover {
+  transform: translateX(8px) translateY(-2px);
+  border-color: var(--first-color);
+  box-shadow: 0 12px 24px -12px rgba(108, 92, 231, 0.2);
+}
+
+/* Ícono de la tarjeta */
+.qualification__card-icon {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(108, 92, 231, 0.1), rgba(108, 92, 231, 0.05));
+  border-radius: 1rem;
+  transition: all 0.3s;
+}
+
+.qualification__card:hover .qualification__card-icon {
+  transform: scale(1.05);
+}
+
+.qualification__card-icon i {
+  font-size: 1.3rem;
+  color: var(--first-color);
+  transition: all 0.3s;
+}
+
+.qualification__card:hover .qualification__card-icon i {
+  color: white;
+}
+
+/* Línea decorativa */
+.qualification__card-line {
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(180deg, var(--first-color), rgba(108, 92, 231, 0.1));
+  border-radius: 2px;
+  opacity: 0.5;
+  transition: all 0.3s;
+}
+
+.qualification__card:hover .qualification__card-line {
+  opacity: 1;
+  width: 3px;
+}
+
+/* Información */
+.qualification__card-info {
+  flex: 1;
+}
+
+.qualification__card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.3rem;
+}
+
+.qualification__card-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--title-color);
+  margin: 0;
+}
+
+.qualification__card-date {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--first-color);
+  background: rgba(108, 92, 231, 0.1);
+  padding: 0.25rem 0.7rem;
+  border-radius: 2rem;
+}
+
+.qualification__card-subtitle {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  color: var(--text-color-light);
+  margin: 0;
+}
+
+.qualification__card-subtitle i {
+  font-size: 0.85rem;
+  color: var(--first-color);
+}
+
+
+
+/* Descripción de la tarjeta */
+.qualification__card-description {
+  font-size: 0.75rem;
+  color: var(--text-color-light);
+  line-height: 1.5;
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px dashed rgba(0, 0, 0, 0.05);
+}
+
+/* Dark theme */
+body.dark-theme .qualification__card-description {
+  border-top-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Responsive */
+@media screen and (max-width: 680px) {
+  .qualification__card-description {
+    font-size: 0.7rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .qualification__card-description {
+    text-align: center;
+  }
+}
+
+/* ==================== ANIMACIONES ==================== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==================== DARK THEME ==================== */
+body.dark-theme .qualification__tab {
+  background: var(--container-color);
+  box-shadow: none;
+}
+
+body.dark-theme .qualification__card {
+  background: var(--container-color);
+  border-color: rgba(255, 255, 255, 0.05);
+}
+
+body.dark-theme .qualification__card-icon {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+body.dark-theme .qualification__badge {
+  background: rgba(108, 92, 231, 0.15);
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media screen and (max-width: 680px) {
+  .qualification__container {
+    padding: 0 1rem;
+  }
+  
+  .qualification__title {
+    font-size: 1.5rem;
+  }
+  
+  .qualification__tabs {
+    gap: 0.8rem;
+  }
+  
+  .qualification__tab {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.8rem;
+  }
+  
+  .qualification__card {
+    padding: 1rem;
+  }
+  
+  .qualification__card-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .qualification__card-icon {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .qualification__card-icon i {
+    font-size: 1rem;
+  }
+  
+  .qualification__card-title {
+    font-size: 0.9rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .qualification__tabs {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .qualification__tab {
+    justify-content: center;
+  }
+  
+  .qualification__card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .qualification__card-line {
+    display: none;
+  }
+  
+  .qualification__card-header {
+    align-items: center;
+  }
+  
+  .qualification__card-subtitle {
+    justify-content: center;
+  }
+}
+
+/* ==================== ESTILOS PARA LOGOS Y LINKS ==================== */
+
+/* Contenedor de institución/empresa */
+.qualification__card-institution,
+.qualification__card-company {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.3rem;
+  flex-wrap: wrap;
+}
+
+/* Logo de institución/empresa */
+.qualification__logo {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  border-radius: 6px;
+  background: var(--container-color);
+  padding: 2px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.qualification__card:hover .qualification__logo {
+  transform: scale(1.05);
+  box-shadow: 0 2px 6px rgba(108, 92, 231, 0.2);
+}
+
+/* Link de institución/empresa */
+.qualification__card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--first-color);
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.qualification__card-link:hover {
+  gap: 0.5rem;
+  text-decoration: underline;
+}
+
+.qualification__card-link .qualification__external {
+  font-size: 0.7rem;
+  opacity: 0.7;
+  transition: opacity 0.3s;
+}
+
+.qualification__card-link:hover .qualification__external {
+  opacity: 1;
+}
+
+/* Texto plano (sin link) */
+.qualification__card-text {
+  font-size: 0.8rem;
+  color: var(--text-color-light);
+}
+
+/* Ajuste responsive para logos */
+@media screen and (max-width: 680px) {
+  .qualification__logo {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .qualification__card-institution,
+  .qualification__card-company {
+    gap: 0.5rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .qualification__card-institution,
+  .qualification__card-company {
+    justify-content: center;
+  }
+  
+  .qualification__logo {
+    width: 28px;
+    height: 28px;
+  }
+}

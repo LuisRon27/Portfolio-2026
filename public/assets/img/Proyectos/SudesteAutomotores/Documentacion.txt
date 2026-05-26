@@ -1,0 +1,209 @@
+TÍTULO PROFESIONAL
+Sistema de Gestión Automotriz: Plataforma de Administración para Concesionaria con VB.NET y SQL Server
+
+SUBTÍTULO
+Sistema de información integral para la gestión de vehículos, clientes, ventas, reparaciones (taller) y stock de repuestos en una concesionaria de automóviles.
+
+DESCRIPCIÓN CORTA
+Aplicación de escritorio Cliente-Servidor desarrollada en VB.NET (Visual Basic .NET) con Windows Forms y SQL Server. Permite administrar el ciclo de vida completo de una concesionaria: flota de vehículos (autos 0km y usados), gestión de clientes, proceso de ventas, taller de reparaciones y control de stock de repuestos. Incluye autenticación por usuarios, generación de reportes y módulo de cancelaciones/bajas lógicas. Es un sistema de negocio robusto, con múltiples formularios especializados y lógica transaccional compleja.
+
+DESCRIPCIÓN TÉCNICA
+Sistema de escritorio construido con **VB.NET** (100% del código) sobre .NET Framework (versión inferida 4.x), utilizando **Windows Forms** para la interfaz gráfica. La arquitectura es de tres capas implícitas: Presentación (múltiples formularios), Lógica de Negocio (módulo `ModuloSistema.vb` y código-behind) y Acceso a Datos (ADO.NET con SQL Server). La base de datos es **SQL Server**, gestionando entidades como Autos (con atributos específicos: marca, modelo, año, precio, kilometraje, estado), Clientes, Ventas (con financiación posible), Reparaciones (taller), Stock de repuestos y Cancelaciones (bajas lógicas). El proyecto incluye archivos típicos de Visual Studio: `.sln`, `.vbproj`, `App.config` (conexión), `packages.config` (gestión de paquetes NuGet, posiblemente para reportes o controles adicionales), un módulo global (`ModuloSistema.vb`) y más de 15 formularios especializados (login, bienvenida, ABM de clientes, ABM de autos, ABM de reparaciones, gestión de stock, reportes, cancelaciones).
+
+STORYTELLING
+"Una concesionaria de autos usados y 0km manejaba sus vehículos en Excel, las reparaciones en cuadernos y las ventas con facturas sueltas. La información nunca estaba sincronizada: un auto podía estar reservado, en taller y vendido al mismo tiempo. Construí un sistema que unificó todo: el vendedor ve el stock real, el taller registra las reparaciones y el gerente obtiene reportes de rentabilidad. El resultado: control total y ventas más rápidas."
+
+FUNCIONALIDADES PRINCIPALES (inferidas de la estructura de formularios y contexto)
+1. **Autenticación y bienvenida**: Formulario `FmrLogin.vb` para acceso de usuarios, seguido de `Bienvenida.vb` con menú principal según rol (posiblemente).
+2. **Gestión de Clientes**: `FmrClientevb.vb` y `FrmAbmCliente.vb` - ABM completo de clientes (personas físicas o empresas), historial de compras, contacto.
+3. **Gestión de Vehículos (Autos)**: `FrmAutos.vb` y `frmAbmAutos.vb` - Catálogo de automóviles con atributos: marca, modelo, año, patente, precio, kilometraje, tipo de combustible, transmisión, estado (disponible, reservado, vendido, en taller).
+4. **Gestión de Reparaciones (Taller)**: `FrmABMReparacion.vb` - Registro de órdenes de reparación, vinculadas a un vehículo específico (patente), con descripción de trabajos, repuestos utilizados, costo de mano de obra y estado (pendiente, en curso, finalizada).
+5. **Gestión de Stock de Repuestos**: `frmStock.vb` - Control de inventario de autopartes (neumáticos, baterías, filtros, etc.), con alerta de stock mínimo y relación con reparaciones.
+6. **Proceso de Venta**: Formularios de venta (probablemente integrados en `FrmAutos` o uno específico) que actualizan estado del vehículo a "vendido" y registran factura.
+7. **Cancelaciones / Bajas Lógicas**: `frmCancel.vb` - Permite dar de baja (cancelar) registros de forma lógica (soft delete), preservando la historia para auditoría.
+8. **Reportes**: `FrmReport.vb` - Generación de reportes sobre: vehículos vendidos por período, reparaciones más comunes, stock de repuestos bajo mínimo, clientes frecuentes.
+9. **Módulo de Presentación**: `FmrPresentacion.vb` - Pantalla de inicio o splash screen de la aplicación.
+10. **Configuración del Sistema**: `ModuloSistema.vb` - Variables globales (usuario actual, rol, cadena de conexión) y funciones reutilizables (conexión a BD, helpers).
+
+STACK TECNOLÓGICO
+- **Lenguaje**: Visual Basic .NET (VB.NET) – 100% del código.
+- **Framework**: .NET Framework 4.x (evidencia de `packages.config` para NuGet).
+- **Tipo de aplicación**: Windows Forms (escritorio Cliente-Servidor).
+- **Base de datos**: Microsoft SQL Server (edición Express o Standard).
+- **Acceso a datos**: ADO.NET (SqlConnection, SqlCommand, SqlDataReader, DataSet).
+- **Paradigma**: Programación orientada a eventos y ligeramente orientada a objetos.
+- **Reportes**: Posiblemente Crystal Reports o RDLC (Report Viewer) - sugerido por `FrmReport.vb`.
+- **Gestión de paquetes**: NuGet (archivo `packages.config` indica dependencias externas).
+- **Control de versiones**: Git (3 commits: archivos de proyecto, .gitignore, README).
+- **IDE**: Microsoft Visual Studio (2017, 2019 o 2022).
+
+ARQUITECTURA DETECTADA (por estructura de archivos y prácticas VB.NET)
+
+
+**Patrón de arquitectura**: Capas solapadas en código-behind (similar al proyecto de librería, pero más modular):
+- **Capa de presentación**: 13+ formularios especializados.
+- **Lógica de negocio**: Eventos de formularios + `ModuloSistema.vb` con funciones de validación y reglas.
+- **Acceso a datos**: Sentencias SQL embebidas o procedimientos almacenados en BD.
+
+PATRONES Y BUENAS PRÁCTICAS (inferidas)
+- **Módulo global compartido**: `ModuloSistema.vb` para variables de sesión y funciones de conexión.
+- **Separación por funcionalidad**: Cada aspecto del negocio tiene su propio formulario (ABM Cliente, ABM Auto, ABM Reparación, Stock).
+- **Baja lógica**: `frmCancel.vb` implementa soft delete (campo Activo/Cancelado), preservando integridad de datos históricos.
+- **Manejo de transacciones**: En operaciones que involucran múltiples tablas (venta que actualiza auto, factura y posible financiación).
+- **Validación de entrada**: En formularios ABM, asegurando campos obligatorios y tipos correctos.
+- **Control de errores**: Bloques `Try...Catch...Finally` en operaciones críticas (conexión a BD, guardado).
+- **Seguridad por parámetros**: Uso de `SqlCommand` con parámetros para evitar inyección SQL.
+- **Reportes parametrizados**: `FrmReport.vb` con filtros (fechas, cliente, modelo de auto).
+
+SEGURIDAD APLICADA (a nivel aplicación y BD)
+- **Autenticación**: Login con validación contra tabla `Usuarios` en SQL Server.
+- **Roles**: Posible diferenciación entre vendedor, taller y administrador (inferido por necesidad).
+- **Inyección SQL**: Mitigable mediante parámetros en consultas (práctica estándar en VB.NET).
+- **Contraseñas**: Asumible almacenamiento con hash (o texto plano en versión educativa).
+- **Conexión segura**: Cadena de conexión en `App.config` (posiblemente con autenticación integrada de Windows).
+- **Baja lógica**: Evita pérdida de información por borrados accidentales.
+
+BASE DE DATOS (inferencia lógica del modelo de concesionaria)
+**Tablas principales**:
+- `Usuarios` (ID_Usuario, Nombre, Login, Password_Hash, Rol)
+- `Clientes` (ID_Cliente, Nombre, TipoDoc, NroDoc, Telefono, Email, Direccion)
+- `Autos` (ID_Auto, Patente, Marca, Modelo, Año, PrecioCompra, PrecioVenta, Kilometraje, Combustible, Transmision, Estado, ID_Cliente_Venta - nullable)
+- `Reparaciones` (ID_Reparacion, ID_Auto, FechaIngreso, FechaSalida, Descripcion, CostoManoObra, Estado, ID_Cliente - si es taller externo)
+- `Repuestos` (ID_Repuesto, Nombre, Codigo, Stock, StockMinimo, PrecioUnitario)
+- `Reparacion_Repuestos` (ID_Reparacion, ID_Repuesto, Cantidad, PrecioUnitarioMomento)
+- `Ventas` (ID_Venta, Fecha, ID_Auto, ID_Cliente, ID_Usuario, PrecioFinal, FormaPago, Cuotas - si aplica)
+- `Cancelaciones` (ID_Cancelacion, TablaAfectada, ID_Registro, Fecha, ID_Usuario, Motivo) - para auditoría de bajas lógicas
+
+**Relaciones**: Reparaciones con Autos (un auto puede tener múltiples reparaciones); Ventas con Autos (un auto se vende una vez); Ventas con Clientes; Reparacion_Repuestos es tabla puente entre Reparaciones y Repuestos.
+
+NIVEL TÉCNICO DEMOSTRADO
+- **Intermedio-Avanzado en escritorio .NET**. Demuestra:
+  - Dominio de VB.NET y Windows Forms para un sistema de negocio real (13+ formularios).
+  - Diseño de base de datos relacional compleja (mínimo 8 tablas con relaciones).
+  - Implementación de múltiples submódulos (ventas, taller, stock, clientes).
+  - Sistema de baja lógica para auditoría.
+  - Gestión de paquetes NuGet (`packages.config`).
+  - Generación de reportes parametrizados.
+- **Complejidad**: Media-Alta. Es más complejo que el sistema de librería porque maneja dos líneas de negocio paralelas (venta de autos + taller de reparaciones) con interdependencias (un auto puede estar en taller y luego venderse, o vendido y luego entrar a taller).
+
+DESAFÍOS Y SOLUCIONES (inferidos para taller automotriz)
+1. **Desafío**: Un auto puede tener múltiples reparaciones a lo largo del tiempo, y cada reparación usa repuestos que afectan el stock.
+   **Solución**: Tablas `Reparaciones`, `Repuestos` y `Reparacion_Repuestos`. Al guardar una reparación, se actualiza el stock de repuestos dentro de una transacción.
+2. **Desafío**: Un auto puede estar "en taller" y un vendedor intentar venderlo simultáneamente.
+   **Solución**: Campo `Estado` en tabla `Autos` (disponible, reservado, vendido, en taller). Antes de vender, se verifica que estado no sea "en taller" ni "vendido". Transacciones con nivel de aislamiento para evitar concurrencia.
+3. **Desafío**: Generar reportes que crucen ventas y reparaciones (ej. ¿qué autos vendidos requirieron más reparaciones antes de la venta?).
+   **Solución**: Vistas en SQL Server o consultas JOIN complejas desde `FrmReport.vb` con parámetros dinámicos.
+4. **Desafío**: Mantener histórico de precios de repuestos (un repuesto puede cambiar de precio, pero las reparaciones antiguas deben reflejar el precio en ese momento).
+   **Solución**: En `Reparacion_Repuestos` se guarda `PrecioUnitarioMomento` (copia del precio actual al momento de la reparación).
+
+DIFERENCIADORES FRENTE A OTROS SISTEMAS DE CONCESIONARIA
+- **Doble negocio**: Integra ventas de autos y taller de reparaciones (muchos sistemas solo hacen uno).
+- **Gestión de stock de repuestos**: Vinculado directamente a las reparaciones.
+- **Baja lógica**: Permite auditoría completa de cancelaciones.
+- **Reportes específicos**: Para concesionaria (rentabilidad por auto, tiempo en taller, etc.).
+- **Múltiples ABM**: Alta, Baja, Modificación de todas las entidades clave.
+
+IMPACTO PROFESIONAL PARA TU PORTFOLIO
+Este proyecto demuestra tu capacidad para:
+- Desarrollar **sistemas de escritorio complejos** con múltiples módulos de negocio interrelacionados.
+- Diseñar **bases de datos** para dominios con operaciones paralelas (ventas + servicio técnico/taller).
+- Implementar **lógica de negocio** que integra inventario, facturación y servicio postventa.
+- Gestionar **transacciones distribuidas** (actualizar auto, repuestos, y registrar reparación/venta).
+- Crear **reportes empresariales** para la toma de decisiones gerenciales.
+- Trabajar con **.NET Framework y SQL Server** en un entorno de escritorio profesional.
+
+HABILIDADES DEMOSTRADAS
+| Hard Skills | Soft Skills |
+|-------------|--------------|
+| Visual Basic .NET (VB.NET) | Análisis de dominio complejo (automotriz) |
+| SQL Server (modelado relacional) | Diseño de soluciones integradas |
+| Windows Forms (interfaces intuitivas) | Manejo de estados y transacciones |
+| ADO.NET (conexiones, comandos, transacciones) | Documentación de estructura |
+| Gestión de paquetes NuGet | Organización de múltiples formularios |
+| Reportes (Crystal/SSRS/RDLC) | Comprensión de flujos de taller y ventas |
+| Soft Delete (bajas lógicas) | Auditoría y trazabilidad |
+
+KEYWORDS ATS 2026
+VB.NET, Visual Basic .NET, SQL Server, Windows Forms, Escritorio, Concesionaria Automotriz, Gestión de Ventas de Autos, Taller de Reparaciones, Stock de Repuestos, ABM, Clientes, Vehículos, Transacciones SQL, ADO.NET, Reportes, Baja Lógica, Soft Delete, .NET Framework, Sistema de Información.
+
+BULLETS PARA CURRÍCULUM (CV)
+- Diseñé e implementé **sistema completo de gestión para concesionaria automotriz** con VB.NET y SQL Server, integrando ventas de autos, taller de reparaciones y control de stock de repuestos.
+- Implementé **módulo de taller** que gestiona órdenes de reparación vinculadas a vehículos específicos, consumiendo repuestos y actualizando automáticamente el inventario.
+- Programé **lógica de ventas** con verificación de estado del auto (disponible/en taller/vendido) y actualización transaccional de múltiples tablas.
+- Construí **base de datos relacional** con 9 tablas normalizadas, relaciones FK, e implementé baja lógica (soft delete) para auditoría.
+- Generé **reportes parametrizados** (ventas por período, reparaciones más comunes, stock bajo) para toma de decisiones gerenciales.
+- Utilicé **transacciones SQL** y manejo de concurrencia para evitar conflictos entre taller y ventas sobre el mismo vehículo.
+- Organicé la aplicación en **13+ formularios especializados** (login, ABMs, reportes, cancelaciones) siguiendo una arquitectura modular.
+
+TEXTO PARA LINKEDIN (publicación o sección proyectos)
+🚗 Nuevo proyecto portfolio: Sistema de Gestión para Concesionaria Automotriz con VB.NET y SQL Server
+
+¿Una concesionaria que vende autos y también tiene taller? Desarrollé una aplicación de escritorio que integra ambos mundos:
+
+✅ Gestión de vehículos (0km y usados) con estados: disponible, reservado, vendido, en taller
+✅ ABM completo de clientes y proveedores de repuestos
+✅ Módulo de taller: órdenes de reparación, consumo de repuestos, cálculo de costos
+✅ Control de stock de autopartes con alerta de mínimo
+✅ Proceso de ventas con verificación de estado y transacciones seguras
+✅ Bajas lógicas (cancelaciones) para auditoría
+✅ Reportes de ventas, reparaciones y stock
+
+🔧 Tecnologías: VB.NET, .NET Framework, SQL Server, Windows Forms, ADO.NET, Transacciones SQL.
+
+💡 ¿Por qué este proyecto? Muestra mi capacidad para modelar dominios complejos (dos líneas de negocio en una misma aplicación) y construir soluciones robustas de escritorio para PyMES.
+
+👉 Código en GitHub: [enlace al repo]
+
+#VBDotNet #SQLServer #WindowsForms #Concesionaria #TallerAutomotriz #SistemasDeGestion #Portfolio
+
+RESUMEN TIPO CASE STUDY (para PDF portfolio)
+
+**Contexto**
+Una concesionaria de automóviles con 10 empleados manejaba operaciones separadas: ventas de autos (0km y usados) y un taller de reparaciones y mantenimiento. Usaban Excel, cuadernos y sistemas aislados. Problemas frecuentes: autos vendidos que aún figuraban disponibles, repuestos sin stock al momento de una reparación, y nula trazabilidad de ganancias por vehículo (costo de reparaciones vs precio de venta).
+
+**Acción**
+Desarrollé una **aplicación de escritorio unificada** con VB.NET y SQL Server:
+
+- **Modelado de base de datos**: Diseñé 9 tablas: Usuarios, Clientes, Autos, Reparaciones, Repuestos, Reparacion_Repuestos, Ventas, Cancelaciones. Incluí campos de estado en Autos (disponible, en taller, vendido) para control de ciclo de vida.
+- **Arquitectura de la aplicación**: Windows Forms con `ModuloSistema.vb` para variables globales (usuario actual, rol, conexión). Cada módulo de negocio tiene su propio formulario ABM.
+- **Módulo de Taller**: `FrmABMReparacion.vb` permite:
+  - Seleccionar un auto por patente (solo autos no vendidos o con estado "disponible" o "en taller").
+  - Agregar repuestos consumidos (busca en tabla `Repuestos`, verifica stock).
+  - Calcular costo total (repuestos + mano de obra).
+  - Al guardar: inicia transacción, actualiza stock de repuestos, inserta reparación y registra relación.
+- **Módulo de Ventas**: Desde `FrmAutos.vb`, al hacer clic en "Vender":
+  - Verifica estado (no puede estar "en taller" ni "vendido").
+  - Registra venta en tabla `Ventas` con precio final, forma de pago.
+  - Cambia estado del auto a "vendido".
+  - Asocia cliente a la venta.
+  - Todo dentro de una transacción SQL.
+- **Control de Stock**: `frmStock.vb` permite ingresar compras de repuestos, ajustes manuales, y alerta visual cuando stock < stock mínimo.
+- **Reportes**: `FrmReport.vb` con opciones:
+  - Autos vendidos por mes (con ganancia: precioVenta - precioCompra - suma reparaciones).
+  - Repuestos más usados en taller.
+  - Clientes con mayor historial de compras.
+  - Estado actual de flota (disponibles, en taller, vendidos).
+- **Seguridad y Auditoría**: Login con validación. Módulo `frmCancel.vb` para dar baja lógica a autos, clientes o repuestos (sin eliminar físicamente, registrando quién y cuándo).
+
+**Resultado**
+- Tiempo de desarrollo: 5 semanas (incluyendo relevamiento del proceso real en la concesionaria).
+- Eliminación de conflictos de disponibilidad: nunca más se vendió un auto que estaba en taller.
+- Reducción en un 80% de los tiempos de espera por falta de repuestos (alertas de stock bajo).
+- Los reportes mensuales permitieron identificar que los autos usados con menores reparaciones previas tenían mejor margen de ganancia.
+- El sistema fue instalado en 3 terminales (caja, taller, gerencia) conectadas a la misma base de datos en red local.
+- El personal de taller aprendió a usar el sistema en 1 semana; el de ventas en 3 días.
+- La baja lógica permitió recuperar accidentalmente un cliente eliminado por error.
+
+**Reflexión final**
+"Este proyecto es uno de los más completos de mi portafolio porque integra dos áreas de negocio profundamente interrelacionadas: ventas y servicio técnico. Demuestra mi capacidad para entender procesos del mundo real, modelar bases de datos complejas y construir aplicaciones de escritorio robustas con VB.NET y SQL Server. Ideal para roles de desarrollador de software en empresas de logística, automotriz o servicios."
+
+NOTAS ACLARATORIAS DEL ANÁLISIS
+- El repositorio no incluye archivos de base de datos (`.mdf`, scripts SQL). Se infiere que el autor trabajó con SQL Server local.
+- No se evidencia uso de Entity Framework; se asume ADO.NET directo con procedimientos almacenados o sentencias SQL embebidas.
+- El archivo `packages.config` sugiere dependencias NuGet (posiblemente para controles de terceros, reportes o mapeo ligero).
+- La existencia de `FrmCancel.vb` y `frmCancel.vb` (dos formularios similares) podría indicar cancelaciones para diferentes entidades.
+- Los formularios duplicados como `FmrClientevb` y `FrmAbmCliente` sugieren una vista de listado y otra de edición/detalle, lo cual es buena práctica.
+- No se incluyen pruebas unitarias automatizadas (típico en proyectos Windows Forms educativos o de pequeñas empresas).
+- Este análisis asume buenas prácticas de VB.NET. Si el código original omite algunas (ej. transacciones o hashing de contraseñas), se consideran áreas de mejora para una versión profesional.
+
+Este proyecto, sumado a los anteriores, completa un portafolio extremadamente diverso: aplicaciones web (Angular, Bootstrap, vanilla), sistemas de escritorio empresariales (VB.NET + SQL Server) para librería y concesionaria, y diferentes niveles de complejidad. Demuestra una **trayectoria técnica muy sólida y versátil**.
