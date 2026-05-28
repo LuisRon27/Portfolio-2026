@@ -25,33 +25,35 @@
           <h3 class="service__card-title">{{ service.title }}</h3>
           <p class="service__card-description">{{ service.shortDescription }}</p>
           <div class="service__card-footer">
-            <button class="service__button">
+            <button class="service__button" (click)="openModal(service)">
               Ver Más
               <i class="uil uil-arrow-right"></i>
             </button>
-          </div>
-
-          <!-- Modal -->
-          <div class="service__modal">
-            <div class="service__modal-content">
-              <div class="service__modal-header">
-                <h4 class="service__modal-title">{{ service.title }}</h4>
-                <i class="uil uil-times service__modal-close"></i>
-              </div>
-              <div class="service__modal-body">
-                <ul class="service__modal-list">
-                  @for (feature of service.features; track feature) {
-                    <li class="service__modal-item">
-                      <i class="uil uil-check-circle service__modal-icon"></i>
-                      <span>{{ feature }}</span>
-                    </li>
-                  }
-                </ul>
-              </div>
-            </div>
           </div>
         </div>
       }
     </div>
   </div>
 </section>
+
+<!-- Modal de servicio -->
+@if (showModal() && selectedService(); as service) {
+  <div class="service__modal" (click)="closeModal()">
+    <div class="service__modal-content" (click)="$event.stopPropagation()">
+      <div class="service__modal-header">
+        <h4 class="service__modal-title">{{ service.title }}</h4>
+        <i class="uil uil-times service__modal-close" (click)="closeModal()"></i>
+      </div>
+      <div class="service__modal-body">
+        <ul class="service__modal-list">
+          @for (feature of service.features; track feature) {
+            <li class="service__modal-item">
+              <i class="uil uil-check-circle service__modal-icon"></i>
+              <span>{{ feature }}</span>
+            </li>
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+}

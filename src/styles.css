@@ -405,7 +405,6 @@ img {
 
 .home_scroll {
   display: none;
-
 }
 
 .home_scroll-button {
@@ -433,7 +432,6 @@ img {
 }
 
 .button--flex:hover .button_icon {
-
   transform: translateX(.25rem);
 }
 
@@ -900,6 +898,15 @@ body.dark-theme .cta__floating {
   .cta__image {
     max-width: 200px;
   }
+
+  .stack-container{
+    padding: 0px;
+  }
+
+  .home_scroll{
+    display: flex;
+    justify-content: center;
+  }
 }
 
 /*==================== CONTACT ME ====================*/
@@ -1005,7 +1012,7 @@ body.dark-theme .cta__floating {
 
 .scrollup {
   position: fixed;
-  right: 1rem;
+  right: 1.9rem;
   bottom: -20%;
   background-color: var(--first-color);
   color: white;
@@ -1027,7 +1034,7 @@ body.dark-theme .cta__floating {
 
 /* Show scroll */
 .show-scroll {
-  bottom: 5rem;
+  bottom: 7rem;
 }
 
 /*========== SCROLL BAR ==========*/
@@ -1205,8 +1212,6 @@ body.dark-theme .cta__floating {
     justify-content: center;
   }
 
-
-
   .about_container {
     column-gap: 5rem;
   }
@@ -1309,9 +1314,6 @@ body.dark-theme .cta__floating {
     transform: translateX(-6rem);
   }
 
-
-
-
   .Slide_content {
     column-gap: 5rem;
   }
@@ -1351,11 +1353,20 @@ body.dark-theme .cta__floating {
     margin: 0 30px;
   }
 
+  .stack-container{
+    padding: 0px;
+  }
+
+  .home_scroll{
+    display: flex;
+    justify-content: center;
+  }
+
   .stack-container:before {
     left: 0;
     background: none;
   }
-  
+
   .stack-container:after {
     right: 0;
     background: none;

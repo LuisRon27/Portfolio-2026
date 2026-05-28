@@ -1,0 +1,133 @@
+<!--==================== RECOGNITIONS ====================-->
+<section class="recognitions section" id="recognitions">
+  <span class="recognitions__deco-circle recognitions__deco-circle--1"></span>
+  <span class="recognitions__deco-circle recognitions__deco-circle--2"></span>
+  <div class="recognitions__deco-dots">
+    <span></span><span></span><span></span>
+    <span></span><span></span><span></span>
+    <span></span><span></span><span></span>
+  </div>
+
+  <div class="recognitions__container">
+    
+    <!-- Header -->
+    <div class="recognitions__header">
+      <span class="recognitions__eyebrow">Logros y Distinciones</span>
+      <h2 class="recognitions__title">
+        <span class="recognitions__title-gradient">Reconocimientos</span>
+      </h2>
+      <div class="recognitions__underline"></div>
+      <p class="recognitions__description">
+        Distinciones que reflejan mi <strong>compromiso académico</strong> y 
+        <strong>calidad humana</strong>
+      </p>
+    </div>
+
+    <!-- Grid de reconocimientos -->
+    <div class="recognitions__grid">
+      @for (recognition of recognitions; track recognition.id; let i = $index) {
+        <div class="recognition__card" [style.--card-color]="recognition.color" [style.--stagger-delay]="i * 120">
+          <span class="recognition__card-number">{{ i + 1 | number:'2.0' }}</span>
+
+          <div class="recognition__card-icon">
+            <i [class]="recognition.icon"></i>
+          </div>
+
+          <div class="recognition__card-content">
+            <span class="recognition__card-type" [style.backgroundColor]="recognition.color">
+              {{ recognition.type === 'human' ? 'Calidad Humana' : 'Excelencia Académica' }}
+            </span>
+            <h3 class="recognition__card-title">{{ recognition.title }}</h3>
+            <p class="recognition__card-institution">
+              <i class="uil uil-building"></i> {{ recognition.institution }}
+            </p>
+            <p class="recognition__card-date">
+              <i class="uil uil-calendar-alt"></i> {{ recognition.date }}
+            </p>
+            <p class="recognition__card-description">{{ recognition.description }}</p>
+          </div>
+
+          <div class="recognition__card-image" (click)="openModal(recognition)">
+            <img [src]="recognition.image" [alt]="recognition.title" loading="lazy">
+            <div class="recognition__card-overlay">
+              <i class="uil uil-eye"></i>
+              <span>Ver certificado</span>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Divider -->
+    <div class="recognitions__divider">
+      <span class="recognitions__divider-line"></span>
+      <span class="recognitions__divider-icon">
+        <i class="uil uil-star"></i>
+      </span>
+      <span class="recognitions__divider-line"></span>
+    </div>
+
+    <!-- Cita inspiradora -->
+    <div class="recognitions__quote">
+      <div class="recognitions__quote-icon">
+        <i class="uil uil-quote-left"></i>
+      </div>
+      <p class="recognitions__quote-text">
+        El verdadero éxito no está solo en los logros académicos,<br>
+        sino en el impacto positivo que dejamos en quienes nos rodean.
+      </p>
+      <span class="recognitions__quote-author">— Filosofía Personal</span>
+    </div>
+  </div>
+
+  <!-- Modal de certificado -->
+  @if (isModalOpen && selectedRecognition) {
+    <div class="recognition__modal" (click)="closeModal()">
+      <div class="recognition__modal-content" (click)="$event.stopPropagation()">
+
+        <div class="recognition__modal-header">
+          <span class="recognition__modal-counter">{{ currentIndex + 1 }} / {{ recognitions.length }}</span>
+          <h3 class="recognition__modal-title">{{ selectedRecognition.title }}</h3>
+          <button class="recognition__modal-close" (click)="closeModal()" aria-label="Cerrar">
+            <i class="uil uil-times"></i>
+          </button>
+        </div>
+
+        <div class="recognition__modal-image" [class.is-zoomed]="isZoomed" [class.is-dragging]="isDragging" (wheel)="onWheel($event)">
+          @if (hasPrev) {
+            <button class="recognition__modal-nav recognition__modal-nav--prev" (click)="prevImage()" aria-label="Anterior">
+              <i class="uil uil-angle-left"></i>
+            </button>
+          }
+
+          <img
+            [src]="selectedRecognition.image"
+            [alt]="selectedRecognition.title"
+            (click)="toggleZoom($event)"
+            (dblclick)="onImageDblClick()"
+            (mousedown)="onDragStart($event)"
+            (mousemove)="onDragMove($event)"
+            (mouseup)="onDragEnd()"
+            (mouseleave)="onDragEnd()"
+            (touchstart)="onTouchStart($event)"
+            (touchmove)="onTouchMove($event)"
+            (touchend)="onTouchEnd($event)"
+            [style.transform]="isZoomed ? 'translate(' + currentTranslateX + 'px, ' + currentTranslateY + 'px) scale(' + zoomLevel + ')' : 'scale(1)'"
+            [style.transformOrigin]="zoomOriginX + '% ' + zoomOriginY + '%'">
+
+          @if (hasNext) {
+            <button class="recognition__modal-nav recognition__modal-nav--next" (click)="nextImage()" aria-label="Siguiente">
+              <i class="uil uil-angle-right"></i>
+            </button>
+          }
+
+          @if (showZoomHud && isZoomed) {
+            <span class="recognition__zoom-hud">{{ zoomLevel.toFixed(1) }}×</span>
+          }
+        </div>
+
+        <p class="recognition__modal-institution">{{ selectedRecognition.institution }}</p>
+      </div>
+    </div>
+  }
+</section>

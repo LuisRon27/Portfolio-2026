@@ -723,6 +723,91 @@ export class ProjectDataService {
         'Trazabilidad total: cada acción registrada con usuario y timestamp'
       ],
       impact: 'Plataforma enterprise de prescripción electrónica que cubre el ciclo de vida completo de recetas digitales, integrando dos instituciones de salud, APIs gubernamentales y notificaciones multicanal.'
+    },
+    {
+      id: 17,
+      title: 'Prospección Automatizada con IA para Google Maps',
+      slug: 'lead-generation-google-maps',
+      subtitle: 'Automatización de prospección comercial con n8n e IA — Extracción de leads, análisis de sitios web y comunicación personalizada',
+      description: 'Automatización completa para prospección B2B: busca negocios en Google Maps, extrae datos de contacto y genera mensajes personalizados con IA.',
+      fullDescription: 'Workflow inteligente construido en n8n que automatiza todo el proceso de prospección comercial. El sistema busca negocios en Google Maps según nicho y ubicación, extrae automáticamente URLs de sitios web, filtra dominios irrelevantes, visita cada sitio para obtener su HTML, limpia el código, extrae información clave (teléfonos, emails, descripciones del negocio), utiliza IA Gemini para analizar el contenido y redactar mensajes de WhatsApp y correos electrónicos personalizados, y finalmente guarda toda la información en Google Sheets mientras envía los emails automáticamente. Diseñado para una agencia de marketing digital que necesitaba escalar su captación de clientes sin aumentar horas de trabajo manual.',
+      technologies: ['n8n', 'Gemini AI', 'Google Maps', 'Google Sheets', 'Gmail API', 'JavaScript', 'HTTP Requests', 'Web Scraping'],
+      image: 'assets/img/Proyectos/leadgen/lead-generation.webp',
+      images: [
+        'assets/img/Proyectos/leadgen/lead-generation.webp',
+      ],
+      info: '/proyecto/lead-generation-google-maps',
+      category: 'ai',
+      categoryName: 'AI & Automation',
+      date: '2025',
+      features: [
+        { icon: 'uil uil-map', title: 'Scraping de Google Maps', description: 'Búsqueda automatizada de negocios por nicho y ubicación geográfica con extracción de URLs de sitios web.' },
+        { icon: 'uil uil-filter', title: 'Filtrado Inteligente', description: 'Eliminación automática de dominios irrelevantes (google, instagram, wa.link) preservando solo sitios web reales de negocios.' },
+        { icon: 'uil uil-globe', title: 'Extracción de Datos Web', description: 'Visita cada sitio web, limpia el HTML y extrae teléfonos, emails, títulos y descripciones del negocio.' },
+        { icon: 'uil uil-brain', title: 'Análisis con IA Gemini', description: 'Gemini analiza la descripción de cada negocio y genera mensajes de WhatsApp y correos personalizados según su rubro y necesidades.' },
+        { icon: 'uil uil-whatsapp', title: 'Mensajes Personalizados', description: 'Generación automática de mensajes de WhatsApp contextuales con propuestas de valor concretas.' },
+        { icon: 'uil uil-envelope', title: 'Email Automatizado', description: 'Creación de emails profesionales con diseño HTML responsive y envío automático vía Gmail.' },
+        { icon: 'uil uil-sheet', title: 'Registro en Google Sheets', description: 'Almacenamiento estructurado de todos los leads con datos de contacto, mensajes generados y fecha de prospección.' },
+        { icon: 'uil uil-clock', title: 'Control de Throttling', description: 'Pausas estratégicas entre solicitudes para evitar bloqueos y simular comportamiento humano.' }
+      ],
+      challenges: [
+        { problem: 'Proceso manual de búsqueda de prospectos: horas revisando Google Maps, visitando sitios web y anotando datos de contacto.', solution: 'Automatización completa que reduce de horas a minutos el proceso de captación de leads por nicho y ubicación.' },
+        { problem: 'Mensajes comerciales genéricos con baja tasa de respuesta por falta de personalización.', solution: 'IA Gemini analiza la descripción de cada negocio y genera mensajes contextuales que mencionan necesidades específicas según su rubro.' },
+        { problem: 'Dificultad para escalar prospección a múltiples nichos y zonas geográficas simultáneamente.', solution: 'Flujo parametrizable que permite ejecutar campañas para cualquier combinación de nicho + ubicación sin modificar el workflow.' }
+      ],
+      differentiators: [
+        'Extracción de hasta 30 URLs por búsqueda con filtrado inteligente de dominios irrelevantes',
+        'Limpieza y normalización de HTML con eliminación de scripts, estilos y contenido no relevante',
+        'IA Gemini entrenada como experto en ventas B2B para generar mensajes persuasivos',
+        'Corrección automática de problemas de codificación (tildes, eñes, caracteres especiales) en textos extraídos',
+        'Pipeline completo: búsqueda → scraping → análisis IA → almacenamiento → envío de emails',
+        'Detección de números de teléfono argentinos con normalización de formato (+54)',
+        'Generación de emails en HTML con diseño profesional manteniendo personalización del contenido'
+      ],
+      impact: 'Transformación del proceso de prospección comercial de una agencia de marketing digital, eliminando horas de trabajo manual diarias, aumentando la cantidad de prospectos calificados, mejorando las tasas de respuesta con mensajes personalizados por IA, y permitiendo escalar campañas a múltiples nichos y zonas geográficas simultáneamente.'
+    },
+    {
+      id: 18,
+      title: 'Asistente Virtual para Estética con WhatsApp',
+      slug: 'asistente-estetica-whatsapp',
+      subtitle: 'ChatBot Inteligente para Recepción de Estética — Automatización de turnos con IA Gemini',
+      description: 'Asistente virtual que automatiza la atención al cliente, gestión de turnos y consultas de servicios de una estética vía WhatsApp.',
+      fullDescription: 'Workflow inteligente construido en n8n que funciona como una recepcionista virtual llamada "Ana" para un centro de estética. El sistema recibe mensajes de clientes a través de la API de WhatsApp Business, procesa el lenguaje natural con IA Gemini, y utiliza herramientas conectadas a Google Calendar para consultar disponibilidad, agendar y cancelar turnos, así como una base de datos en Google Sheets para consultar servicios, precios y duraciones. La agente mantiene memoria de la conversación, responde con un tono cálido y profesional, y sigue reglas estrictas de disponibilidad horaria (lunes a viernes 9-18hs). Diseñado para una estética que enfrentaba saturación del personal de recepción, llamadas telefónicas desbordadas y pérdida de clientes por falta de respuesta ágil.',
+      technologies: ['n8n', 'Gemini AI', 'WhatsApp API', 'Twilio', 'Google Calendar', 'Google Sheets', 'JavaScript', 'Memory Buffer'],
+      image: 'assets/img/Proyectos/chatbot-estetica/chatbot-estetica.webp',
+      images: [
+        'assets/img/Proyectos/chatbot-estetica/chatbot-estetica.webp',
+      ],
+      info: '/proyecto/asistente-estetica-whatsapp',
+      category: 'ai',
+      categoryName: 'AI & Automation',
+      date: '2025',
+      features: [
+        { icon: 'uil uil-brain', title: 'IA con Personalidad Propia', description: 'Gemini actúa como "Ana", una recepcionista cálida y profesional que nunca revela ser un bot, usando lenguaje natural y emojis moderados.' },
+        { icon: 'uil uil-whatsapp', title: 'Integración Total con WhatsApp', description: 'Conexión mediante Twilio para recibir y enviar mensajes, permitiendo a los clientes interactuar desde su aplicación favorita.' },
+        { icon: 'uil uil-calendar-alt', title: 'Gestión Inteligente de Turnos', description: 'Consulta disponibilidad, agenda y cancela citas en Google Calendar con verificación previa y confirmación del cliente.' },
+        { icon: 'uil uil-sheet', title: 'Catálogo de Servicios', description: 'Base de datos en Google Sheets con servicios, precios, duraciones y profesionales, consultable en tiempo real.' },
+        { icon: 'uil uil-memory', title: 'Memoria Contextual', description: 'Buffer de memoria con 25 mensajes de contexto para mantener coherencia en conversaciones largas sin repetir información.' },
+        { icon: 'uil uil-clock', title: 'Reglas de Disponibilidad', description: 'Restricción automática a horario laboral (lunes a viernes 9-18hs) con duración base de 1 hora por turno.' },
+        { icon: 'uil uil-shield-check', title: 'Confirmación Doble', description: 'Solicita confirmación del cliente antes de crear o cancelar eventos, evitando errores y mejorando la experiencia.' },
+        { icon: 'uil uil-robot', title: 'Confidencialidad', description: 'Nunca comparte información de otros clientes y responde de forma cordial cuando no encuentra un turno solicitado.' }
+      ],
+      challenges: [
+        { problem: 'Recepción saturada: el personal atendía llamadas y mensajes simultáneamente, generando demoras y errores en la agenda.', solution: 'Automatización 24/7 que responde instantáneamente, liberando al personal para tareas presenciales de mayor valor.' },
+        { problem: 'Pérdida de clientes fuera del horario laboral: consultas nocturnas o de fin de semana quedaban sin respuesta hasta el día siguiente.', solution: 'Asistente operativo 24/7 que agenda turnos incluso fuera del horario de atención (respetando rangos disponibles).' },
+        { problem: 'Información inconsistente: los precios y servicios variaban según qué recepcionista atendiera.', solution: 'Fuente única de verdad en Google Sheets, garantizando respuestas consistentes y actualizadas en tiempo real.' }
+      ],
+      differentiators: [
+        'Personalidad cálida y humana ("Ana") que nunca revela ser una IA, generando confianza en el cliente',
+        'Memoria conversacional de 25 mensajes para mantener el hilo de diálogos extensos',
+        'Confirmación en dos pasos antes de acciones críticas (crear/cancelar turnos)',
+        'Integración nativa con Google Calendar y Google Sheets sin necesidad de middlewares adicionales',
+        'Reglas de disponibilidad automáticas: respeta horarios y duraciones definidas',
+        'Confidencialidad garantizada: nunca expone datos de otros clientes',
+        'Tono profesional pero cercano, con uso moderado de emojis para calidez',
+        'Respuesta inmediata 24/7 eliminando tiempos de espera'
+      ],
+      impact: 'Transformación digital de la gestión de turnos de una estética, reduciendo la carga del personal de recepción en un 70%, eliminando la pérdida de clientes por falta de respuesta fuera del horario laboral, garantizando información consistente sobre servicios y precios, y mejorando la experiencia del cliente con respuestas instantáneas y un trato cálido y profesional en todo momento.'
     }
   ];
 

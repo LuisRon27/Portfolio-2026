@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, Inject, PLATFORM_ID, OnDestroy, HostListener } from '@angular/core';
+import { Component, signal, Inject, PLATFORM_ID, OnDestroy, HostListener } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ScrollAnimationDirective } from '../../shared/directives/scroll-animation.directive';
 
@@ -17,8 +17,11 @@ interface Service {
   templateUrl: './services.html',
   styleUrls: ['./services.css']
 })
-export class Services implements AfterViewInit, OnDestroy {
+export class Services implements OnDestroy {
   private isBrowser: boolean;
+
+  selectedService = signal<Service | null>(null);
+  showModal = signal<boolean>(false);
 
   services: Service[] = [
     {
@@ -87,78 +90,34 @@ export class Services implements AfterViewInit, OnDestroy {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
 
-  ngAfterViewInit(): void {
-    if (this.isBrowser) {
-      setTimeout(() => {
-        this.initModals();
-      }, 500);
-    }
-  }
-
   ngOnDestroy(): void {
     if (this.isBrowser) {
       document.body.style.overflow = '';
     }
   }
 
-  private initModals(): void {
-    // Usar la clase correcta del HTML
-    const modalBtns = document.querySelectorAll('.service__button');
-    const modalCloses = document.querySelectorAll('.service__modal-close');
-    const modals = document.querySelectorAll('.service__modal');
+  openModal(service: Service): void {
+    this.selectedService.set(service);
+    this.showModal.set(true);
+    if (this.isBrowser) {
+      document.body.style.overflow = 'hidden';
+    }
+  }
 
-    console.log('Botones encontrados:', modalBtns.length);
-    console.log('Modales encontrados:', modals.length);
-
-    // Abrir modal
-    modalBtns.forEach((btn, index) => {
-      btn.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        
-        const card = btn.closest('.service__card');
-        const modal = card?.querySelector('.service__modal');
-        
-        if (modal) {
-          console.log('Abriendo modal', index);
-          modal.classList.add('active-modal');
-          document.body.style.overflow = 'hidden';
-        } else {
-          console.error('Modal no encontrado');
-        }
-      });
-    });
-
-    // Cerrar modal con X
-    modalCloses.forEach((closeBtn) => {
-      closeBtn.addEventListener('click', () => {
-        const modal = closeBtn.closest('.service__modal');
-        if (modal) {
-          modal.classList.remove('active-modal');
-          document.body.style.overflow = '';
-        }
-      });
-    });
-
-    // Cerrar modal al hacer clic fuera
-    modals.forEach((modal) => {
-      modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
-          modal.classList.remove('active-modal');
-          document.body.style.overflow = '';
-        }
-      });
-    });
+  closeModal(): void {
+    this.showModal.set(false);
+    setTimeout(() => {
+      this.selectedService.set(null);
+    }, 300);
+    if (this.isBrowser) {
+      document.body.style.overflow = '';
+    }
   }
 
   @HostListener('document:keydown.escape')
   onEscapeHandler(): void {
-    if (this.isBrowser) {
-      const activeModal = document.querySelector('.service__modal.active-modal');
-      if (activeModal) {
-        activeModal.classList.remove('active-modal');
-        document.body.style.overflow = '';
-      }
+    if (this.showModal()) {
+      this.closeModal();
     }
   }
 }

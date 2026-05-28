@@ -12,6 +12,7 @@ import { Contact } from '../../components/contact/contact';
 import { Footer } from '../../components/footer/footer';
 import { ScrollAnimationDirective } from '../../shared/directives/scroll-animation.directive';
 import { ProjectDataService } from '../../services/project-data.service';
+import { Recognitions } from "../../components/recognitions/recognitions";
 
 @Component({
   selector: 'app-main-page',
@@ -28,13 +29,15 @@ import { ProjectDataService } from '../../services/project-data.service';
     Services,
     Portfolio,
     Contact,
-    Footer
-  ],
+    Footer,
+    Recognitions
+],
   templateUrl: './main-page.html',
   styleUrls: ['./main-page.css']
 })
 export class MainPage implements OnInit {
   showScrollTop = signal(false);
+  showWhatsApp = signal(false);
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
@@ -89,6 +92,7 @@ export class MainPage implements OnInit {
   @HostListener('window:scroll')
   onScroll() {
     if (isPlatformBrowser(this.platformId)) {
+      this.showWhatsApp.set(window.scrollY >= 300);
       this.showScrollTop.set(window.scrollY >= 500);
     }
   }

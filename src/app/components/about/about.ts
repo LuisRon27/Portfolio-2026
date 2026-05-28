@@ -16,9 +16,9 @@ export class About implements AfterViewInit, OnDestroy {
 
   // Datos de estadísticas
   stats = [
-    { value: 4, label: 'Años de Experiencia', icon: 'uil uil-briefcase-alt' },
-    { value: 30, label: 'Certificaciones', icon: 'uil uil-trophy' },
-    { value: 40, label: 'Proyectos', icon: 'uil uil-code-branch' }
+    { value: 3, label: 'Años de Experiencia', icon: 'uil uil-briefcase-alt' },
+    { value: 45, label: 'Certificaciones', icon: 'uil uil-trophy' },
+    { value: 18, label: 'Proyectos', icon: 'uil uil-code-branch' }
   ];
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {

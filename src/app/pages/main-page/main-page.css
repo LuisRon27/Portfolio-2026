@@ -1,1 +1,84 @@
+/* ==================== FLOATING WHATSAPP ==================== */
+.whatsapp-btn {
+  position: fixed;
+  right: 1rem;
+  bottom: 9.5rem;
+  width: 56px;
+  height: 56px;
+  background: #25D366;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 1.8rem;
+  box-shadow: 0 4px 14px rgba(37, 211, 102, 0.4);
+  z-index: var(--z-tooltip);
+  text-decoration: none;
+  animation: whatsappFadeIn 0.4s cubic-bezier(0.2, 0, 0, 1);
+  transition: all 0.3s ease;
+}
 
+.whatsapp-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: #25D366;
+  animation: whatsappPulse 2s ease-out infinite;
+  z-index: -1;
+}
+
+.whatsapp-btn::after {
+  content: '¡Escríbeme!';
+  position: absolute;
+  right: 68px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 0.4rem 0.8rem;
+  border-radius: 0.4rem;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.whatsapp-btn:hover::before {
+  animation: none;
+  opacity: 0;
+}
+
+.whatsapp-btn:hover::after {
+  opacity: 1;
+  visibility: visible;
+}
+
+.whatsapp-btn:hover {
+  transform: scale(1.1);
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(37, 211, 102, 0.5);
+}
+
+@keyframes whatsappFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes whatsappPulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}

@@ -73,10 +73,14 @@ export class Skills {
       color: '#e17055',
       skills: [
         { name: 'OpenAI API', icon: 'assets/img/Stack/openai.webp' },
+        { name: 'Gemini API', icon: 'assets/img/Stack/gemini.webp' },
+        { name: 'OpenRouter API', icon: 'assets/img/Stack/openrouter.webp' },
         { name: 'AI Agents', icon: 'assets/img/Stack/ai-agents.webp' },
         { name: 'RAG', icon: 'assets/img/Stack/Rag.webp' },
         { name: 'N8N', icon: 'assets/img/Stack/n8n.webp' },
-        { name: 'OpenCode', icon: 'assets/img/Stack/opencode.webp' }
+        { name: 'OpenCode', icon: 'assets/img/Stack/opencode.webp' },
+        { name: 'MCP', icon: 'assets/img/Stack/mcp.webp' },
+        { name: 'Skills', icon: 'assets/img/Stack/skills.webp' }
       ]
     },
     {
