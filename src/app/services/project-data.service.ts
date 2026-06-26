@@ -808,6 +808,94 @@ export class ProjectDataService {
         'Respuesta inmediata 24/7 eliminando tiempos de espera'
       ],
       impact: 'Transformación digital de la gestión de turnos de una estética, reduciendo la carga del personal de recepción en un 70%, eliminando la pérdida de clientes por falta de respuesta fuera del horario laboral, garantizando información consistente sobre servicios y precios, y mejorando la experiencia del cliente con respuestas instantáneas y un trato cálido y profesional en todo momento.'
+    },
+    {
+      id: 19,
+      title: 'Gestión Financiera Colaborativa',
+      slug: 'gestion-financiera-colaborativa',
+      subtitle: 'Sistema de Gestión Financiera Colaborativa — PHP Vanilla + MySQL 8 + Bootstrap 5.3 + Chart.js 4.4',
+      description: 'Gestión de finanzas personales y compartidas con aportes proporcionales.',
+      fullDescription: 'Plataforma web integral diseñada para que parejas, familias y grupos de amigos administren sus finanzas compartidas de manera eficiente y equitativa. Permite crear cuentas financieras (personales o compartidas), registrar ingresos y egresos, planificar gastos mensuales, establecer metas de ahorro con seguimiento visual, y calcular automáticamente aportes proporcionales basados en los ingresos de cada miembro. Implementa un sofisticado motor de cálculo que distribuye los gastos compartidos según la capacidad económica de cada participante, con notificaciones automáticas y transferencias entre cuentas con doble asiento contable. Desarrollado con PHP 8+ vanilla (sin frameworks), MySQL 8 con PDO, Bootstrap 5.3, Chart.js 4.4, JavaScript vanilla y CSS3 avanzado con arquitectura MVC artesanal, 9 clases de dominio estáticas, 12 tablas relacionales y más de 40 endpoints AJAX.',
+      technologies: ['PHP 8', 'MySQL 8', 'Bootstrap 5.3', 'Chart.js 4.4', 'JavaScript', 'PDO', 'HTML5', 'CSS3'],
+      image: 'assets/img/Proyectos/gestion_financiera/gf2.webp',
+      images: [
+        'assets/img/Proyectos/gestion_financiera/gf1.webp',
+        'assets/img/Proyectos/gestion_financiera/gf2.webp',
+        'assets/img/Proyectos/gestion_financiera/gf3.webp',
+        'assets/img/Proyectos/gestion_financiera/gf4.webp',
+        'assets/img/Proyectos/gestion_financiera/gf5.webp',
+        'assets/img/Proyectos/gestion_financiera/gf6.webp'
+      ],
+      info: '/proyecto/gestion-financiera-colaborativa',
+      category: 'web',
+      categoryName: 'Web App',
+      date: '2026',
+      features: [
+        { icon: 'uil uil-usd-circle', title: 'Aportes Proporcionales Colaborativos', description: 'Algoritmo que calcula contribuciones según el ingreso de cada miembro del grupo, distribuyendo los gastos compartidos de forma equitativa y proporcional a la capacidad económica.' },
+        { icon: 'uil uil-users-alt', title: 'Cuentas Multi-usuario con Roles', description: 'Cuentas personales y compartidas con jerarquía de 4 niveles (propietario, administrador, miembro, consulta) y permisos granulares verificados en cada operación.' },
+        { icon: 'uil uil-chart-pie', title: 'Dashboard Interactivo con Chart.js', description: 'Resumen financiero del mes con gráficos doughnut de distribución por grupos, línea de ingresos vs gastos, exportación a CSV y reportes dinámicos.' },
+        { icon: 'uil uil-calendar-alt', title: 'Planificación Mensual de Gastos', description: 'Checklist de gastos planificados con estados (pendiente/pagado/vencido), marcado masivo, control de saldo suficiente y copia inteligente del mes anterior.' },
+        { icon: 'uil uil-trophy', title: 'Metas de Ahorro con Progreso', description: 'Objetivos con monto target y fecha límite, barra de progreso visual, agregado manual de progreso y auto-completado al alcanzar el monto objetivo.' },
+        { icon: 'uil uil-exchange', title: 'Transferencias con Doble Asiento', description: 'Transferencias entre cuentas propias con doble asiento contable: egreso en origen e ingreso en destino en una sola transacción atómica con actualización de saldos.' }
+      ],
+      challenges: [
+        { problem: 'Mantener consistencia del saldo al crear, editar o eliminar movimientos, especialmente al marcar pagos y transferir entre cuentas.', solution: 'Transacciones atómicas SQL con commit/rollback, reversión de saldos anteriores al editar y verificación de saldo suficiente antes de cada operación.' },
+        { problem: 'Distribuir gastos compartidos de forma proporcional a los ingresos de cada miembro, que cambian mes a mes.', solution: 'Algoritmo en PlanMensual::calcularAportes() que calcula porcentajes dinámicos sobre ingresos totales del grupo y los aplica a cada gasto compartido.' },
+        { problem: 'Implementar doble asiento contable en transferencias: cada transferencia debe generar egreso en origen e ingreso en destino de forma atómica.', solution: 'Una sola transacción SQL con 6+ queries que crea ambos movimientos espejo, actualiza ambos saldos y, si el destino es compartida, actualiza el aporte correspondiente.' }
+      ],
+      differentiators: [
+        'Arquitectura MVC artesanal en PHP vanilla sin frameworks, demostrando comprensión profunda de separación de responsabilidades y patrones de diseño',
+        'Algoritmo de aportes proporcionales automáticos que distribuye gastos según los ingresos de cada miembro del grupo',
+        'Sistema de roles y permisos jerárquicos con 4 niveles (propietario > administrador > miembro > consulta) verificados en cada endpoint',
+        'Mecanismo de transferencias con doble asiento contable y consistencia transaccional entre cuentas de origen y destino',
+        'Más de 40 endpoints AJAX, 9 clases de dominio estáticas, 12 tablas relacionales y frontend responsive completo sin dependencias de build',
+        'CSRF implementado manualmente con tokens criptográficos (random_bytes(32)) y verificación timing-safe (hash_equals)'
+      ],
+      impact: 'Plataforma financiera colaborativa completa que demuestra capacidad para diseñar e implementar arquitecturas web profesionales desde cero, con lógica de negocio compleja (aportes proporcionales, doble asiento contable, roles jerárquicos) y una experiencia de usuario refinada, todo construido sin frameworks ni dependencias externas pesadas.'
+    },
+    {
+      id: 20,
+      title: 'Sistema de Gestión de Permisos Médicos',
+      slug: 'permisos-medicos',
+      subtitle: 'Sistema de Solicitud y Autorización de Permisos Médicos — PHP + SQL Server + Bootstrap 5 + FPDF',
+      description: 'Digitalización del flujo de solicitud y autorización de permisos médicos con workflow multi-etapa.',
+      fullDescription: 'Aplicación web transaccional desarrollada para el Instituto Henry Moore (Oncomed Reno SA) que digitaliza y automatiza el flujo completo de solicitud, revisión y autorización de permisos médicos. Reemplaza un proceso manual basado en papel y correos informales por un workflow digital trazable con múltiples etapas: Recepción por Secretaría, validación por RRHH, autorización por especialistas según tipo de permiso (Hematología, Seguimiento) y aprobación final por un autorizador general. Incluye dos modalidades de solicitud: con recupero (modificación de agenda con detalle de bloqueo o reprogramación) y sin recupero (ausencia directa). Genera documentos PDF formales con firmas digitales integradas, notifica por correo electrónico en cada transición de estado y provee trazabilidad visual completa de cada solicitud. Construido con PHP nativo, SQL Server, Bootstrap 5, JavaScript vanilla, PHPMailer y FPDF.',
+      technologies: ['PHP', 'SQL Server', 'Bootstrap 5', 'JavaScript', 'FPDF', 'PHPMailer', 'SweetAlert2', 'HTML5', 'CSS3'],
+      image: 'assets/img/Proyectos/Permisos Medicos/pm1.webp',
+      images: [
+        'assets/img/Proyectos/Permisos Medicos/pm1.webp',
+        'assets/img/Proyectos/Permisos Medicos/pm2.webp',
+        'assets/img/Proyectos/Permisos Medicos/pm3.webp',
+        'assets/img/Proyectos/Permisos Medicos/pm4.webp',
+        'assets/img/Proyectos/Permisos Medicos/pm5.webp',
+        'assets/img/Proyectos/Permisos Medicos/pm6.webp'
+      ],
+      info: '/proyecto/permisos-medicos',
+      category: 'web',
+      categoryName: 'Web App',
+      date: '2025',
+      features: [
+        { icon: 'uil uil-clipboard-alt', title: 'Solicitud con Dos Modalidades', description: 'Permisos "con recupero" (modificación de agenda con detalle de bloqueo o reprogramación) y "sin recupero" (ausencia directa), con formularios específicos y validación cliente-servidor.' },
+        { icon: 'uil uil-sitemap', title: 'Workflow Multi-etapa', description: 'Flujo secuencial de 4 etapas: Recepción Secretaría → Validación RRHH → Autorización Especialista → Autorización General, con detección automática de rol por email.' },
+        { icon: 'uil uil-envelope', title: 'Notificaciones Email Transaccionales', description: 'PHPMailer con SMTP autenticado envía correos HTML en cada transición de estado, con destinatarios dinámicos según la etapa del flujo.' },
+        { icon: 'uil uil-file-alt', title: 'Generación PDF con Firmas Digitales', description: 'FPDF genera documentos formales con dos layouts diferenciados (recupera/no recupera), incluyendo firmas digitales en Base64 de solicitantes y autorizadores.' },
+        { icon: 'uil uil-history', title: 'Trazabilidad Visual', description: 'Componente reutilizable de trazabilidad que muestra el historial completo de cada solicitud con estados, fechas, autorizadores y comentarios en formato expandible.' },
+        { icon: 'uil uil-shield', title: 'Dashboard con Permisos por Rol', description: 'Cards de acceso dinámicos renderizados según permisos del usuario, con bandejas de recepción y autorización filtradas automáticamente por rol y especialidad.' }
+      ],
+      challenges: [
+        { problem: 'Integración con base de datos SQL Server legacy (Hmoore) compartida con otros sistemas del instituto, sin posibilidad de alterar tablas existentes.', solution: 'Consultas directas a tablas compartidas con JOINs y transacciones SQL, utilizando SCOPE_IDENTITY para consistencia y tablas propias (solicitudCabeceraPermiso, solicitudDetallePermiso) para los datos del proyecto.' },
+        { problem: 'Workflow multi-etapa con condiciones dinámicas: el flujo depende del tipo de permiso, el rol del autorizador (detectado por email vía stripos()), el orden secuencial de etapas y el estado de cada autorización.', solution: 'Lógica condicional en SQL con columnas de autorización por etapa (secretaria, rrhh, hematologia, seguimiento, general), verificación secuencial de estados y filtrado automático de bandejas por rol.' },
+        { problem: 'Generación de PDF con FPDF en dos layouts diferenciados y soporte de firmas digitales en Base64 renderizadas como imágenes dentro del documento.', solution: 'FPDF con layout condicional según tipo de permiso, subqueries para datos anidados (detalle, tipos, profesionales) y renderizado de imágenes Base64 como recursos embebidos en el PDF.' }
+      ],
+      differentiators: [
+        'Workflow multi-etapa completo con 4 roles y detección automática de autorizador por email',
+        'Desarrollado sin frameworks — PHP nativo con sesiones, transacciones SQL y manejo HTTP directo',
+        'Generación de PDF formal con firmas digitales integradas usando FPDF',
+        'Componente reutilizable de trazabilidad visual con historial expandible',
+        'Sistema de diseño CSS propio (1600+ líneas) con animaciones y diseño responsive',
+        'Producto en producción real en una institución de salud, integrado con sistemas legacy existentes'
+      ],
+      impact: 'Solución integral que reemplazó un proceso manual de papel y correos informales por un workflow digital completo, trazable y auditable, eliminando demoras en autorizaciones, garantizando consistencia en la información y proporcionando visibilidad en tiempo real del estado de cada solicitud de permiso médico.'
     }
   ];
 
