@@ -896,6 +896,48 @@ export class ProjectDataService {
         'Producto en producción real en una institución de salud, integrado con sistemas legacy existentes'
       ],
       impact: 'Solución integral que reemplazó un proceso manual de papel y correos informales por un workflow digital completo, trazable y auditable, eliminando demoras en autorizaciones, garantizando consistencia en la información y proporcionando visibilidad en tiempo real del estado de cada solicitud de permiso médico.'
+    },
+    {
+      id: 21,
+      title: 'Trazabilidad HC WO',
+      slug: 'trazabilidad-hc',
+      subtitle: 'Sistema de Trazabilidad de Digitalización de Historias Clínicas — PHP + SQL Server + Bootstrap 5',
+      description: 'Registro y control del recorrido físico de las Historias Clínicas desde el Archivo WO hasta su devolución tras la digitalización.',
+      fullDescription: 'Sistema web para registrar y controlar el recorrido físico de las Historias Clínicas (HC) de un hospital, desde que son recopiladas por el área de Archivo (WO) hasta que son devueltas tras su digitalización. En el circuito de un servicio de salud, una HC en papel se mueve entre distintas áreas: el archivo de Work Orders la recopila al momento de la atención, la entrega al sector de Digitalización para su escaneo y luego la recibe de vuelta para su resguardo físico. Perder el control de ese recorrido genera extravíos, demoras y falta de respaldo ante auditorías. La aplicación resuelve ese problema registrando cada etapa con fecha, hora y usuario responsable: permite armar lotes de entrega, asignarlos a usuarios de Digitalización, marcarlas como digitalizadas desde una bandeja de trabajo, registrar devoluciones por lote y consultar la trazabilidad completa por paciente. Desarrollada en PHP sobre XAMPP, consulta la base SQL Server existente (AgendaWO) que aporta turnos, pacientes y usuarios, evitando duplicar información. El frontend usa Bootstrap 5 y JavaScript vanilla (sin frameworks), consumiendo una API interna propia en JSON con autenticación por sesión y control de roles.',
+      technologies: ['PHP', 'SQL Server', 'Bootstrap 5', 'JavaScript', 'XAMPP', 'SQLSRV', 'SweetAlert2', 'HTML5', 'CSS3'],
+      image: 'assets/img/Proyectos/Trazabilidad-HC/trazabilidad-hc-1.jpeg',
+      images: [
+        'assets/img/Proyectos/Trazabilidad-HC/trazabilidad-hc-1.jpeg',
+        'assets/img/Proyectos/Trazabilidad-HC/trazabilidad-hc-2.png',
+        'assets/img/Proyectos/Trazabilidad-HC/trazabilidad-hc-3.png',
+        'assets/img/Proyectos/Trazabilidad-HC/trazabilidad-hc-4.png'
+      ],
+      info: '/proyecto/trazabilidad-hc',
+      category: 'web',
+      categoryName: 'Web App',
+      date: '2026',
+      features: [
+        { icon: 'uil uil-clipboard-notes', title: 'Recopilación de HC por Turno', description: 'El Archivo WO consulta los turnos citados del día y recopila cada Historia Clínica registrando opcionalmente Nro. de documento y una nota, pasando la HC a estado Recopilado.' },
+        { icon: 'uil uil-box', title: 'Armado y Entrega de Lotes', description: 'Con las HCs recopiladas del día se arma el lote de entrega y se asigna a un usuario de Digitalización, dejando cada HC en estado En Digitalización.' },
+        { icon: 'uil uil-inbox', title: 'Bandeja de Trabajo', description: 'El sector de Digitalización busca la HC en su bandeja con filtros por NroHC, documento o paciente y la marca como Digitalizada con nota opcional.' },
+        { icon: 'uil uil-import', title: 'Devolución por Lote', description: 'Cuando Digitalización devuelve físicamente las HCs, Archivo WO registra la devolución por lote con fecha, hora y responsable, pasando al estado Devuelto.' },
+        { icon: 'uil uil-analysis', title: 'Dashboard de Indicadores', description: 'El Admin monitorea el circuito con KPIs por rango de fechas y consulta la trazabilidad completa de cada HC filtrable por estado, paciente y fecha.' },
+        { icon: 'uil uil-shield', title: 'Autenticación y Roles', description: 'Login contra la base existente con permisos por aplicación y tres perfiles jerárquicos: ArchivoWO, Digitalizacion y Admin, cada uno con pantallas enfocadas en su tarea.' }
+      ],
+      challenges: [
+        { problem: 'Integrarse con una base SQL Server existente (AgendaWO) compartida con otros sistemas del hospital, sin duplicar información de turnos, pacientes y usuarios.', solution: 'Consultas directas a las tablas existentes y una tabla propia (TrazabilidadHC) que guarda el estado global de cada HC con las fechas y usuarios de cada etapa del circuito.' },
+        { problem: 'Operaciones masivas de entrega y devolución de lotes que deben ser consistentes ante fallas.', solution: 'Ejecución de las operaciones de lote dentro de transacciones (db_begin / db_commit / db_rollback) para garantizar la consistencia de los datos.' },
+        { problem: 'Evitar que una misma HC esté en dos circuitos a la vez.', solution: 'Índice único filtrado (Estado <> Devuelto) que garantiza una sola HC activa por circuito en todo momento.' }
+      ],
+      differentiators: [
+        'API interna propia en JSON con autenticación por sesión y validación de rol en cada endpoint',
+        'Estados derivados por columna con trazabilidad completa de fecha, hora y usuario responsable por etapa',
+        'Operaciones de lote transaccionales para entrega y devolución masiva de Historias Clínicas',
+        'Integración directa con la base institucional existente evitando duplicar información',
+        'Paginado en cliente con un paginador reutilizable (15-20 filas) sin recargar la página',
+        'Producto sencillo por diseño que corre directamente bajo XAMPP sin instalaciones complejas'
+      ],
+      impact: 'Sistema en un servicio de salud que digitaliza y controla el circuito completo de las Historias Clínicas en papel, eliminando extravíos y demoras, garantizando respaldo ante auditorías y proporcionando visibilidad en tiempo real de dónde está cada HC, quién la movió y cuándo.'
     }
   ];
 
